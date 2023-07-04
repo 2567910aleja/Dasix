@@ -1,3 +1,4 @@
+'''
 from config.wsgi import *
 from core.erp.models import Type
 #from django.test import TestCase
@@ -10,3 +11,4 @@ print(query)
 t=Type()
 t.Nombre="prueba"
 t.save()
+'''
