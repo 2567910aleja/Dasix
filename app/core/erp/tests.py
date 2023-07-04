@@ -1,14 +1,18 @@
-'''
 from config.wsgi import *
-from core.erp.models import Type
+from core.erp.models import *
 #from django.test import TestCase
 
-#Listar
-query=Type.objects.all()
-print(query)
-
 #Insertar
-t=Type()
-t.Nombre="prueba"
-t.save()
-'''
+valores=["Lacteos","Cereales","Carnes"]
+for valor in valores:
+  c=Categoria()
+  #Porque estoy recorriendo el arreglo
+  c.nombre=valor
+  c.save()
+  
+#LISTAR
+print(Categoria.objects.all())
+for i in Categoria.objects.filter():
+    print(i)
+
+

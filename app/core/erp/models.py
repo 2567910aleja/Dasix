@@ -1,43 +1,79 @@
 from django.db import models
+from datetime import datetime
 
-class Type(models.Model):
-    Nombre=models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.Nombre
+gender_choices = (
+    ('male','Masculino'),
+    ('female','Femenino'),
+)
     
-    class Meta:
-        verbose_name="Tipo"
-        verbose_name_plural="Tipos"
-        ordering=['id']
-
-
 class Categoria(models.Model):
-    Nombre=models.CharField(max_length=50)
+    Nombre=models.CharField(max_length=150, unique=True)
 
     def __str__(self):
-        return self.Nombre
+        return 'Nombre: {}'.format(self.Nombre)
     
     class Meta:
         verbose_name="Categoria"
         verbose_name_plural="Categorias"
         ordering=['id']
 
+class Producto(models.Model):
+    Nombre=models.CharField(max_length=150,unique=True)
+    cate=models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    image=models.ImageField(upload_to='producto/%y/%m/%d',null=True, blank=True)
+    pvp=models.DecimalField(default=0.00, max_digits=9,decimal_places=2)
 
-class Usuario(models.Model):
-    categ=models.ManyToManyField(Categoria)
-    type=models.ForeignKey(Type, on_delete=models.PROTECT)
-    Identificacion=models.CharField(max_length=15, unique=True)
-    Nombres=models.CharField(max_length=50)
-    Apellidos=models.CharField(max_length=50)
-    Direccion=models.CharField(max_length=50)
-    Correo=models.EmailField
-    Contraseña=models.CharField(max_length=250, unique=True)
+    def __str__(self):
+        return self.Nombre
     
+    class Meta:
+        verbose_name='Producto'
+        verbose_name_plural='Productos'
+        ordering=['id']
+
+class Cliente(models.Model):
+    Nombres=models.CharField(max_length=150)
+    Apellidos=models.CharField(max_length=150)
+    Cedula=models.CharField(max_length=10, unique=True)
+    Cumple=models.DateField(default=datetime.now, verbose_name='Fecha de Nacimiento')
+    Direccion=models.CharField(max_length=150, null=True, blank=True)
+    Sexo=models.CharField(max_length=10, choices=gender_choices,default='male')
+
     def __str__(self):
         return self.Nombres
     
     class Meta:
-        verbose_name="Usuario"
-        verbose_name_plural="Usuarios"
+        verbose_name='Cliente'
+        verbose_name_plural='Clientes'
         ordering=['id']
+
+
+class Venta(models.Model):
+    Cli=models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    Date_joined=models.DateField(default=datetime.now)
+    Subtotal=models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    Iva=models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    Total=models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return self.Cli.Nombres
+    
+    class Meta:
+        verbose_name='Venta'
+        verbose_name_plural='Ventas'
+        ordering=['id']
+
+class DetalleVenta(models.Model):
+    Venta=models.ForeignKey(Venta, on_delete=models.CASCADE)
+    Produ=models.ForeignKey(Producto, on_delete=models.CASCADE)
+    Precio=models.DecimalField(default=0.00, max_digits=9,decimal_places=2)
+    Cantidad=models.IntegerField(default=0)
+    Subtotal=models.DecimalField(default=0.00, max_digits=9,decimal_places=2)
+
+    def __str__(self):
+        return self.Produ.Nombre
+    
+    class Meta:
+        verbose_name = 'Detalle de Venta'
+        verbose_name_plural = 'Detalle de Ventas'
+        ordering = ['id']

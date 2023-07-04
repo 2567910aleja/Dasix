@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from core.erp.models import *
 
-# Create your views here.
+def PrimerVista(request):
+    data={'name':'Ale',
+          'Categorias':Categoria.objects.all()
+          }
+    return render(request,'index.html',data)
