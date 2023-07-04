@@ -6,3 +6,9 @@ def PrimerVista(request):
           'Categorias':Categoria.objects.all()
           }
     return render(request,'index.html',data)
+
+def SegundaVista(request):
+    data={'name':'Ale',
+          'Productos':Producto.objects.all()
+          }
+    return render(request,'segundo.html',data)

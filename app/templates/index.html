@@ -6,11 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>MI PRIMERA PAGINA WEB</h1>
+
+    {% block content %}
     <ul>
         {% for Categoria in Categorias %}
-        <li>{{ Categoria.id}} / {{ Categoria.name }}</li>
+        <li>{{ Categoria.id}} / {{ Categoria.Nombre }}</li>
         {% endfor %}
     </ul>
+    {% endblock %}
 <p>{{ name }}</p>
 </body>
 </html>
