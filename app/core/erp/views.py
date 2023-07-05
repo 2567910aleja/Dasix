@@ -5,7 +5,7 @@ def PrimerVista(request):
     data={'name':'Ale',
           'Categorias':Categoria.objects.all()
           }
-    return render(request,'index.html',data)
+    return render(request,'home.html',data)
 
 def SegundaVista(request):
     data={'name':'Ale',
