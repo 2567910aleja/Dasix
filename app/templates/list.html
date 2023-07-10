@@ -32,7 +32,7 @@
             </tbody>
           </table>
           <div class='card-footer'></div>
-          <button class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> Nuevo registro</button>
+          <button class="btn btn-primary btn-flat btnTest"><i class="fas fa-plus"></i> Nuevo registro</button>
           </div>
     </div>
 
@@ -46,6 +46,21 @@ $(function(){
         responsive: true,
         autowidth: false
     });
+    $('.btnTest').on('click', function () {
+        $.ajax({
+            url: '{% url 'erp:categoria_list' %}',
+            type: 'POST',
+            data: {id: 1},
+            dataType: 'json'
+        }).done(function (data) {
+            console.log(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus+': '+errorThrown);
+        }).always(function (data) {
+
+        });
+    });
+
 });
 </script>
 
