@@ -6,6 +6,8 @@ from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import *
+from core.erp.forms import *
+from django.urls import *
 
 def categoria_list(request):
     data={
@@ -15,6 +17,7 @@ def categoria_list(request):
     return render(request,'categoria/list.html',data)
 
 class CategoriaListView(ListView):
+
     model=Categoria
     template_name='categoria/list.html'
 
@@ -36,4 +39,15 @@ class CategoriaListView(ListView):
         context=super().get_context_data(**kwargs)
         context['title']='Listado de categorias'
         #context['object_list']=Producto.objects.all()
+        return context
+    
+class CategoriaCreateView(CreateView):
+    model=Categoria
+    form_class=CategoriaForm
+    template_name='Categoria/create.html'
+    success_url=reverse_lazy('erp:categoria_list')
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['title']='Creacion de categorias'
         return context
