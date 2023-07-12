@@ -1,4 +1,5 @@
 {% extends 'body.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
 <form method="post" action=".">
@@ -11,13 +12,18 @@
     </div>
     <div class="card-body">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form.visible_fields %}
+        <div class='form-group'>
+            <label for="email">{{ field.label }}:</label>
+            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+        {% endfor %}
+        </div>
         
           <div class='card-footer'></div>
           <button type="submit" class="btn btn-primary btn-flat btnTest"><i class="fas fa-save"></i> Guardar registro</button>
           </div>
     </div>
-</div>>
+</div>
 </form>
 
 {% endblock %}
