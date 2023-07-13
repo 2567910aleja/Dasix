@@ -1,9 +1,10 @@
+from typing import Any
 from django.contrib.auth.decorators import *
 from django.shortcuts import render, redirect
 from core.erp.models import *
 from django.views.generic import *
 from django.utils.decorators import method_decorator
-from django.http import JsonResponse
+from django.http import *
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import *
 from core.erp.forms import *
@@ -50,4 +51,4 @@ class CategoriaCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['title']='Creacion de categorias'
-        return context
+        return context 

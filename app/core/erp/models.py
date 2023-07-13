@@ -9,6 +9,7 @@ gender_choices = (
     
 class Categoria(models.Model):
     Nombre=models.CharField(max_length=150, unique=True)
+    Descripcion=models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return 'Nombre: {}'.format(self.Nombre)
