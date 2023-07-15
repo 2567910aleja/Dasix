@@ -70,7 +70,7 @@
                 location.href='{{ list_url }}';
                 return false;
             }
-            message_error(data);
+            message_error(data.error);
             // console.log(data);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert(textStatus+': '+errorThrown);
