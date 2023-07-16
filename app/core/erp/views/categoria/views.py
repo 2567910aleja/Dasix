@@ -119,7 +119,7 @@ class CategoriaUpdateView(UpdateView):
         context['action']='edit'
         return context 
     
-class CategoriaDeleteView():
+class CategoriaDeleteView(DeleteView):
     model=Categoria
     template_name='Categoria/delete.html'
     success_url=reverse_lazy('erp:categoria_list')
