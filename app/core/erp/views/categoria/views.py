@@ -1,4 +1,3 @@
-from typing import Any
 from django.contrib.auth.decorators import *
 from django.shortcuts import render, redirect
 from core.erp.models import *
@@ -64,7 +63,6 @@ class CategoriaCreateView(CreateView):
                 data=form.save()
             else:
                 data['error']='No ha ingresado a ninguna opcion'
-            data= Categoria.objects.get(pk=request.POST['id']).toJSON()
         except Exception as e:
             data['error']=str (e)
 
@@ -87,3 +85,48 @@ class CategoriaCreateView(CreateView):
         context['list_url']=reverse_lazy('erp:categoria_list')
         context['action']='add'
         return context 
+
+class CategoriaUpdateView(UpdateView):
+    model=Categoria
+    form_class=CategoriaForm
+    template_name='Categoria/create.html'
+    success_url=reverse_lazy('erp:categoria_list')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        self.object=self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data={}
+        try:
+            action=request.POST['action']
+            if action == 'edit':
+                form=self.get_form()
+                data=form.save()
+            else:
+                data['error']='No ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error']=str (e)
+
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['title']='Edicion de categorias'
+        context['entity']='Categorias'
+        context['list_url']=reverse_lazy('erp:categoria_list')
+        context['action']='edit'
+        return context 
+    
+class CategoriaDeleteView():
+    model=Categoria
+    template_name='Categoria/delete.html'
+    success_url=reverse_lazy('erp:categoria_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminacion de una Categoria'
+        context['entity'] = 'Categorias'
+        context['list_url'] = reverse_lazy('erp:categoria_list')
+        return context
