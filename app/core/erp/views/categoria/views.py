@@ -65,7 +65,6 @@ class CategoriaCreateView(CreateView):
                 data['error']='No ha ingresado a ninguna opcion'
         except Exception as e:
             data['error']=str (e)
-
         return JsonResponse(data)
 
     #     print(request.POST)
@@ -123,6 +122,19 @@ class CategoriaDeleteView(DeleteView):
     model=Categoria
     template_name='Categoria/delete.html'
     success_url=reverse_lazy('erp:categoria_list')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        self.object=self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data={}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error']=str(e)
+            return JsonResponse(data)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
