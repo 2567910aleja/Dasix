@@ -1,15 +1,20 @@
 {% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'categoria/js/list.js' %}"></script>
+{% endblock %}
 
 {% block columnas %}
 <tr>
     <th scope="col" style="width: 10%;">Numero</th>
-    <th scope="col" style="width: 70%;">Nombre</th>
+    <th scope="col" style="width: 20%;">Nombre</th>
+    <th scope="col" style="width: 50%;">Descripcion</th>
     <th scope="col" style="width: 20%;">Opciones</th>
   </tr>
 {% endblock %}
 
 {% block rows %}
-{% for c in object_list %}
+<!-- {% for c in object_list %}
 <tr>
     <td>{{ c.id }}</td>
     <td>{{ c.Nombre }}</td>
@@ -18,5 +23,8 @@
         <a href="{% url 'erp:categoria_delete' c.id %}" type="button" class="btn btn-danger btn-s"><i class="fas fa-trash-alt"></i></a>
     </td>
 </tr>
-{% endfor %}
+{% endfor %}-->
+{% endblock %}
+
+{% block javascript %}
 {% endblock %}
