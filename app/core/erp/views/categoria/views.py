@@ -1,20 +1,11 @@
-from django.contrib.auth.decorators import *
-from django.shortcuts import render, redirect
 from core.erp.models import *
 from django.views.generic import *
 from django.utils.decorators import method_decorator
 from django.http import *
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import *
 from core.erp.forms import *
 from django.urls import *
 
-def categoria_list(request):
-    data={
-        'title':'Listado de categorias',
-        'categorias':Categoria.objects.all()
-    }
-    return render(request,'categoria/list.html',data)
 
 class CategoriaListView(ListView):
 
