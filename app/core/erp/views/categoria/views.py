@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from core.erp.models import *
 from django.views.generic import *
 from django.utils.decorators import method_decorator
@@ -138,3 +139,26 @@ class CategoriaDeleteView(DeleteView):
         context['entity'] = 'Categorias'
         context['list_url'] = reverse_lazy('erp:categoria_list')
         return context
+
+class CategoriaFormView(FormView):
+    form_class=CategoriaForm
+    template_name='categoria/create.html'
+    success_url=reverse_lazy('erp:categoria_list')
+
+    def form_valid(self, form):
+        print(form.is_valid())
+        print(form)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.is_valid())
+        print(form.errors)
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['title']='Form categorias'
+        context['entity']='Categorias'
+        context['list_url']=reverse_lazy('erp:categoria_list')
+        context['action']='add'
+        return context 

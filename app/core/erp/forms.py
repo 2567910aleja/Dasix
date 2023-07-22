@@ -45,3 +45,11 @@ class CategoriaForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+    
+    def clean(self):
+        cleaned=super().clean()
+        if len(cleaned['Nombre']) <=50:
+            raise forms.ValidationError('Validacion xxx')
+            #self.add_error('Nombre', 'Le faltan caracteres')
+        print(cleaned)
+        return cleaned

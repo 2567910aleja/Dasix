@@ -16,6 +16,7 @@
     </div>
     <div class="card-body">
         {% csrf_token %}
+        {{ form.non_field_errors }}
         <input type="hidden" name="action" value="{{ action }}">
         {% if form.errors %}
         <div class="alert alert-danger alert-dismissible">
@@ -52,6 +53,11 @@
                 errors += '{{ error }}\n';
             {% endfor %}
         {% endfor %}
+
+        {% for error in form.non_field_errors %}
+        errors += '{{ error }}\n';
+        {% endfor %}
+
         Swal.fire({
             title: 'Error!',
             text: errors,
@@ -60,6 +66,7 @@
     {% endif %}
 
     //Obtengo el evento click del boton submit
+    /*
     $('form').on('submit', function (e){
         e.preventDefault();
         var parametros=$(this).serializeArray();
@@ -81,7 +88,7 @@
         }).always(function (data) {
 
         });
-    });
+    });*/
 </script>
 
 {% endblock %}

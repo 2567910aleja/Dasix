@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #mis app
     'core.erp',
     'core.homepage',
+    'core.login',
 ]
 
 MIDDLEWARE = [
