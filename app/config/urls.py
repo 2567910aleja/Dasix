@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('erp/',include('core.erp.urls')),
     path('', IndexView.as_view()),
-    path('login/', LoginFormView.as_view()),
+    path('login/', LoginFormView2.as_view()),
 ]
