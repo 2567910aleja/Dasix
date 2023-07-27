@@ -1,11 +1,12 @@
 from django.http import HttpResponse
 from core.erp.models import *
 from django.views.generic import *
-from django.utils.decorators import method_decorator
+from django.utils.decorators import *
 from django.http import *
 from django.views.decorators.csrf import *
 from core.erp.forms import *
 from django.urls import *
+from django.contrib.auth.decorators import * 
 
 
 class CategoriaListView(ListView):
@@ -14,6 +15,7 @@ class CategoriaListView(ListView):
     template_name='categoria/list.html'
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -48,6 +50,7 @@ class CategoriaCreateView(CreateView):
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -89,6 +92,7 @@ class CategoriaUpdateView(UpdateView):
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object=self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -121,6 +125,7 @@ class CategoriaDeleteView(DeleteView):
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object=self.get_object()
         return super().dispatch(request, *args, **kwargs)
