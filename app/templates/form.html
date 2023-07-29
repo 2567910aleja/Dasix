@@ -41,6 +41,7 @@
         
           <div class='card-footer'></div>
           <button type="submit" class="btn btn-primary btn-flat btnTest"><i class="fas fa-save"></i> Guardar registro</button>
+          <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar</a>
           </div>
     </div>
 </div>
@@ -66,29 +67,14 @@
     {% endif %}
 
     //Obtengo el evento click del boton submit
-    /*
     $('form').on('submit', function (e){
         e.preventDefault();
-        var parametros=$(this).serializeArray();
-        $.ajax({
-            url: window.location.pathname,
-            type: 'POST',
-            data: parametros,
-            dataType: 'json'
-        }).done(function (data) {
-            console.log(data);
-            if(!data.hasOwnProperty('error')){
-                location.href='{{ list_url }}';
-                return false;
-            }
-            message_error(data.error);
-             console.log(data);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus+': '+errorThrown);
-        }).always(function (data) {
-
+        var parametros = $(this).serializeArray();
+        submit_with_ajax(window.location.pathname, parametros, function (){
+          location.href = '{{list_url}}'
         });
-    });*/
+      })
+
 </script>
 
 {% endblock %}

@@ -16,3 +16,48 @@ function message_error(obj) {
         icon: 'error'
     });
 }
+
+function submit_with_ajax(url, parametros,callback) {
+    $.confirm({
+      theme: "material", 
+      title: "Confirmación", 
+      icon: "fa fa-info", 
+      content: "¿Estas seguro de realizar la siguiente acción?", 
+      columnClass: "medium", 
+      typeAnimated: true,
+      cancelButtonClass: "btn-primary",
+      draggable: true, 
+      dragWindowBorder: false,
+      buttons: {
+        info: {
+          text: "Si", 
+          btnClass: "btn-green",
+          action: function () {
+            $.ajax({
+              url: url, 
+              type: "POST",
+              data: parametros, 
+              dataType: "json",
+            })
+              .done(function (data) {
+                if (!data.hasOwnProperty("error")) {
+                  callback(); 
+                  return false;
+                }
+                message_error(data.error);
+              })
+              .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(`${textStatus} : ${errorThrown}`);
+              })
+              .always(function () {
+              });
+          },
+        },
+        danger: {
+          text: "No",
+          btnClass: "btn-red",
+          action: function () {},
+        },
+      },
+    });
+  };
