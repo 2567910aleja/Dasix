@@ -17,12 +17,12 @@ function message_error(obj) {
     });
 }
 
-function submit_with_ajax(url, parametros,callback) {
+function submit_with_ajax(url,title, content, parametros,callback) {
     $.confirm({
       theme: "material", 
-      title: "Confirmación", 
+      title: title, 
       icon: "fa fa-info", 
-      content: "¿Estas seguro de realizar la siguiente acción?", 
+      content: content, 
       columnClass: "medium", 
       typeAnimated: true,
       cancelButtonClass: "btn-primary",

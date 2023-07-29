@@ -1,8 +1,5 @@
-from typing import Any, Dict, Mapping, Optional, Type, Union
-from django.core.files.base import File
-from django.db.models.base import Model
 from django.forms import *
-from django.forms.utils import ErrorList
+
 from core.erp.models import *
 
 class CategoriaForm(ModelForm):
@@ -53,3 +50,31 @@ class CategoriaForm(ModelForm):
             #self.add_error('Nombre', 'Le faltan caracteres')
         print(cleaned)
         return cleaned
+    
+class ProductoForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Nombre'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Producto
+        fields = '__all__'
+        widgets = {
+            'Nombre': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese un nombre',
+                }
+            ),
+        }
+
+    # def save(self, commit=True):
+    #     data = {}
+    #     form = super()
+    #     try:
+    #         if form.is_valid():
+    #             form.save()
+    #         else:
+    #             data['error'] = form.errors
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return data
