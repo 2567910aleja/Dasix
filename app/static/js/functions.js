@@ -38,6 +38,8 @@ function submit_with_ajax(url,title, content, parametros,callback) {
               type: "POST",
               data: parametros, 
               dataType: "json",
+              processData: false,
+              contentType: false
             })
               .done(function (data) {
                 if (!data.hasOwnProperty("error")) {
