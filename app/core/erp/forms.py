@@ -43,13 +43,13 @@ class CategoriaForm(ModelForm):
             data['error'] = str(e)
         return data
     
-    def clean(self):
-        cleaned=super().clean()
-        if len(cleaned['Nombre']) <=50:
-            raise forms.ValidationError('Validacion xxx')
+    #def clean(self):
+        #cleaned=super().clean()
+        #if len(cleaned['Nombre']) <=50:
+            #raise forms.ValidationError('Validacion xxx')
             #self.add_error('Nombre', 'Le faltan caracteres')
-        print(cleaned)
-        return cleaned
+        #print(cleaned)
+       # return cleaned
     
 class ProductoForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -76,4 +76,4 @@ class ProductoForm(ModelForm):
                 data['error'] = form.errors
         except Exception as e:
             data['error'] = str(e)
-            return data
+        return data

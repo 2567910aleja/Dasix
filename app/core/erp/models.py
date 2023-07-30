@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.forms import model_to_dict
+from config.settings import MEDIA_URL, STATIC_URL
 
 gender_choices = (
     ('male','Masculino'),
@@ -25,13 +26,17 @@ class Categoria(models.Model):
 
 class Producto(models.Model):
     Nombre=models.CharField(max_length=150,unique=True)
-    cate=models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    image=models.ImageField(upload_to='producto/%y/%m/%d',null=True, blank=True)
-    pvp=models.DecimalField(default=0.00, max_digits=9,decimal_places=2)
+    cate=models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
+    image=models.ImageField(upload_to='producto/%y/%m/%d',null=True, blank=True, verbose_name='Imagen')
+    pvp=models.DecimalField(default=0.00, max_digits=9,decimal_places=2, verbose_name='Precio de venta')
 
     def __str__(self):
         return self.Nombre
     
+    def get_image(self):
+        if self.image:
+            return '{}{}'.format(MEDIA_URL, self.image)
+        return '{}{}'.format(STATIC_URL, 'img/empty.webp')
     class Meta:
         verbose_name='Producto'
         verbose_name_plural='Productos'

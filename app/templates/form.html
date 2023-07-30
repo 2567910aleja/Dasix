@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<form method="post" action=".">
+<form method="post" action="." enctype="multipart/form-data">
     <div class="card card-default">
     <div class="card-header">
     <h3 class="card-title">
@@ -71,7 +71,7 @@
         e.preventDefault();
         //var parametros = $(this).serializeArray();
         var parametros = new FormData(this);
-        submit_with_ajax(window.location.pathname, parametros, function (){
+        submit_with_ajax(window.location.pathname,'Guardar', '¿Quiere realizar esta accion?', parametros, function (){
           location.href = '{{list_url}}'
         });
       })
