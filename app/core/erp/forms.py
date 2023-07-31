@@ -31,6 +31,9 @@ class CategoriaForm(ModelForm):
                 }
             )
         }
+        
+        exclude=['user_creation','user_update']
+
     def save(self, commit=True):
         data = {}
         form = super()

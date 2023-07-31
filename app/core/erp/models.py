@@ -2,18 +2,29 @@ from django.db import models
 from datetime import datetime
 from django.forms import model_to_dict
 from config.settings import MEDIA_URL, STATIC_URL
+from core.models import BaseModel
+from crum import get_current_user
 
 gender_choices = (
     ('male','Masculino'),
     ('female','Femenino'),
 )
     
-class Categoria(models.Model):
+class Categoria(BaseModel):
     Nombre=models.CharField(max_length=150, unique=True)
     Descripcion=models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return 'Nombre: {}'.format(self.Nombre)
+    
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user=get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation=user
+        else:
+            self.user_update=user
+        super(Categoria, self).save
     
     def toJSON(self):
         item= model_to_dict(self)

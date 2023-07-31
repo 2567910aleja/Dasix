@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'core.erp',
     'core.homepage',
     'core.login',
+    'core.user',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -139,6 +141,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 #Url absoluta para trabajar con los archivos media
 MEDIA_URL='/media/'
+
+AUTH_USER_MODEL='user.User'
 
 
 # Default primary key field type
