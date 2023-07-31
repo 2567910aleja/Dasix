@@ -17,13 +17,13 @@ class TestView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        data = [{'id': '', 'text': '--------------'}]
+        data = {}
         try:
             action = request.POST['action']
             if action == 'search_producto_id':
-                data = []
+                data = [{'id': '', 'text': '------------'}]
                 for i in Producto.objects.filter(cate_id=request.POST['id']):
-                    data.append({'id': i.id, 'text': i.Nombre})
+                    data.append({'id': i.id, 'text': i.name, 'data': i.cate.toJSON()})
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:

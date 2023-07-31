@@ -31,15 +31,15 @@
         </div>
     </form>
     <script>
-        //var select_productos = $('select[Nombre="productos"]');
-        //$(function () {
+        var select_productos = $('select[name="productos"]');
+        $(function () {
 
-            //$('.select2').select2({
-                //theme: 'booststrap4',
-            //    language: 'es'
-            //});
+            $('.select2').select2({
+                theme: 'booststrap4',
+                language: 'es'
+            });
 
-            $('select[Nombre="categorias"]').on('change', function () {
+            $('select[name="categorias"]').on('change', function () {
                 var id = $(this).val();
                 var options = '<option value="">--------------------</option>';
                 if(id === ''){
@@ -59,7 +59,7 @@
                         select_productos.html('').select2({
                             theme: 'booststrap4',
                             language: 'es',
-                            data: dataS
+                            data: data
                         });
                         /*$.each(data, function (key, value) {
                             options+='<option value="'+value.id+'">'+value.Nombre+'</option>';
@@ -73,6 +73,6 @@
                     //select_productos.html(options);
                 });
             });
-        //});
+        });
     </script>
 {% endblock %}
