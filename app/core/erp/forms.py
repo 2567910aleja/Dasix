@@ -77,3 +77,12 @@ class ProductoForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+class TestForm(Form):
+    categorias = ModelChoiceField(queryset=Categoria.objects.all(), widget=Select(attrs={
+        'class': 'form-control select2'
+    }))
+
+    productos = ModelChoiceField(queryset=Producto.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2'
+    }))
