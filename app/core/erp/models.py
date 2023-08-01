@@ -66,7 +66,7 @@ class Cliente(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['Sexo'] = self.get_Sexo_display()
+        item['Sexo'] = {'id':self.Sexo,'name':self.get_Sexo_display()} 
         item['Cumple'] = self.Cumple.strftime('%Y-%m-%d')
         return item
     

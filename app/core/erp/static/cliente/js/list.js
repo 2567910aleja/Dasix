@@ -1,8 +1,7 @@
 var tblCliente;
 var modal_title;
 function getData(){
-    $(function () {
-        $('#data').DataTable({
+    tblCliente=$('#data').DataTable({
             responsive: true,
             autoWidth: false,
             destroy: true,
@@ -21,7 +20,7 @@ function getData(){
                 {"data": "Apellidos"},
                 {"data": "Cedula"},
                 {"data": "Cumple"},
-                {"data": "Sexo"},
+                {"data": "Sexo.name"},
                 {"data": "id"},
             ],
             columnDefs: [
@@ -31,7 +30,7 @@ function getData(){
                     orderable: false,
                     render: function (data, type, row) {
                         var buttons = '<a href="#" rel="edit" class="btn btn-primary btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                        buttons += '<a href="#" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                        buttons += '<a href="#" rel="delete" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
                         return buttons;
                     }
                 },
@@ -40,8 +39,7 @@ function getData(){
     
             }
         });
-    })
-}
+    };
     
     $(function(){
         modal_title = $('.modal-title');
@@ -55,7 +53,8 @@ function getData(){
             $('#myModalCliente').modal('show');
         });
         
-        $('#data tbody').on('click', 'a[rel="edit"]', function () {
+        $('#data tbody')
+        .on('click', 'a[rel="edit"]', function () {
             modal_title.find('span').html('Edición de un cliente');
             modal_title.find('i').removeClass().addClass('fas fa-edit');
             var tr = tblCliente.cell($(this).closest('td, li')).index();
@@ -69,6 +68,19 @@ function getData(){
             $('input[name="Direccion"]').val(data.Direccion);
             $('select[name="Sexo"]').val(data.Sexo.id);
             $('#myModalCliente').modal('show');
+        })
+        .on('click', 'a[rel="delete"]', function () {
+            var tr = tblCliente.cell($(this).closest('td, li')).index();
+            var data = tblCliente.row(tr.row).data();
+
+
+            var parametros = new FormData();
+            parametros.append('action', 'delete');
+            parametros.append('id',data.id);
+        submit_with_ajax(window.location.pathname,'Eliminar', '¿Quiere realizar esta accion?', parametros, function (){
+            tblCliente.ajax.reload();
+        });
+      });
         });
     
         $('#myModalCliente').on('shown.bs.modal', function () {
@@ -84,4 +96,3 @@ function getData(){
             tblCliente.ajax.reload();
         });
       });
-    });
