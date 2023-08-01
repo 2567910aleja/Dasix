@@ -34,6 +34,15 @@ class ClienteView(TemplateView):
                 cli.Direccion=request.POST['Direccion']
                 cli.Sexo=request.POST['Sexo']
                 cli.save()
+            elif action=='edit':
+                cli=Cliente.objects.get(pk=request.POST['id'])
+                cli.Nombres=request.POST['Nombres']
+                cli.Apellidos=request.POST['Apellidos']
+                cli.Cedula=request.POST['Cedula']
+                cli.Cumple=request.POST['Cumple']
+                cli.Direccion=request.POST['Direccion']
+                cli.Sexo=request.POST['Sexo']
+                cli.save()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
