@@ -24,7 +24,7 @@ class Categoria(BaseModel):
                 self.user_creation=user
         else:
             self.user_update=user
-        super(Categoria, self).save
+        super(Categoria, self).save()
     
     def toJSON(self):
         item= model_to_dict(self)
@@ -63,6 +63,12 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.Nombres
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Sexo'] = self.get_Sexo_display()
+        item['Cumple'] = self.Cumple.strftime('%Y-%m-%d')
+        return item
     
     class Meta:
         verbose_name='Cliente'

@@ -91,3 +91,60 @@ class TestForm(Form):
         'class': 'form-control select2',
         'style': 'width: 100%'
     }))
+
+class ClienteForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Nombres'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+        widgets = {
+            'Nombres': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese sus nombres',
+                }
+            ),
+            'Apellidos': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese sus apellidos',
+                }
+            ),
+            'Cedula': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su cedula',
+                }
+            ),
+            'Cumple': DateInput(format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                }
+            ),
+            'Direccion': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su direccion',
+                }
+            ),
+            'Sexo': Select()
+        }
+        exclude = ['user_updated', 'user_creation']
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+    # def clean(self):
+    #     cleaned = super().clean()
+    #     if len(cleaned['name']) <= 50:
+    #         raise forms.ValidationError('Validacion xxx')
+    #         # self.add_error('name', 'Le faltan caracteres')
+    #     return cleaned
