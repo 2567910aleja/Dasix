@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-bhy+dk156xm+x=r+wk@crp!30ou^83jp_tizz1py#=ru$y4q_3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+# ip local, e ip de red local, (cmd, ipconfig,valor: Dirección IPv4)
+ALLOWED_HOSTS = ["127.0.0.1","192.168.0.2"]
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core.homepage',
     'core.login',
     'core.user',
+    'core.apiAndroid',
 ]
 
 MIDDLEWARE = [
