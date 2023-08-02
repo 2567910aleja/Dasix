@@ -27,7 +27,7 @@ class Categoria(BaseModel):
         super(Categoria, self).save()
     
     def toJSON(self):
-        item= model_to_dict(self)
+        item= model_to_dict(self,exclude=['user_creation', 'user_update'])
         return item
     
     class Meta:
