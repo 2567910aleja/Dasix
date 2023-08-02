@@ -135,8 +135,32 @@
                 minLength: 1,
                 select: function (event, ui) {
                     console.log(ui.item)
-                }
+                },
             });
-        });
+                $('select[name="search"]').select2({
+                    theme: "bootstrap4",
+                    language: 'es',
+                    allowClear: true,
+                    ajax:{
+                        delay: 250,
+                        type: 'POST',
+                        url: window.location.pathname,
+                        data: function(params){
+                            var queryParametros={
+                                term: params.term,
+                                action: 'autocomplete'
+                            }
+                            return queryParametros;
+                        },
+                        processResults: function(data){
+                            return{
+                                results: data
+                            };
+                        },
+                    },
+                    placeholder: 'Ingrese una descripcion',
+                    minimumInputLength: 1
+                });
+            });
     </script>
 {% endblock %}
