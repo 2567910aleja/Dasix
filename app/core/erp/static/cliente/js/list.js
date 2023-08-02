@@ -39,7 +39,7 @@ function getData(){
     
             }
         });
-    };
+    }
     
     $(function(){
         modal_title = $('.modal-title');
@@ -80,7 +80,6 @@ function getData(){
         submit_with_ajax(window.location.pathname,'Eliminar', '¿Quiere realizar esta accion?', parametros, function (){
             tblCliente.ajax.reload();
         });
-      });
         });
     
         $('#myModalCliente').on('shown.bs.modal', function () {
@@ -96,3 +95,4 @@ function getData(){
             tblCliente.ajax.reload();
         });
       });
+    });
