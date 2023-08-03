@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from core.erp.models import *
 from django.views.generic import *
 from django.utils.decorators import *
@@ -7,9 +6,10 @@ from django.views.decorators.csrf import *
 from core.erp.forms import *
 from django.urls import *
 from django.contrib.auth.decorators import * 
+from core.erp.mixins import IsSuperuserMixin 
 
 
-class CategoriaListView(ListView):
+class CategoriaListView(IsSuperuserMixin,ListView):
 
     model=Categoria
     template_name='categoria/list.html'
