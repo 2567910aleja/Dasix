@@ -15,7 +15,7 @@ class Categoria(BaseModel):
     Descripcion=models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
-        return 'Nombre: {}'.format(self.Nombre)
+        return self.Nombre
     
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         user=get_current_user()

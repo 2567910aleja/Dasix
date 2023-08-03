@@ -28,8 +28,9 @@ class CategoriaListView(IsSuperuserMixin,ListView):
                 for i in Categoria.objects.all():
                     data.append(i.toJSON())
             else:
-                data['error'] ='Ha ocurrido un error'
+                data['error'] ='No ha ingresado a ninguna opcion'
         except Exception as e:
+            data={}
             data['error']=str (e)
         return JsonResponse(data, safe=False)
     
@@ -107,6 +108,7 @@ class CategoriaUpdateView(UpdateView):
             else:
                 data['error']='No ha ingresado a ninguna opcion'
         except Exception as e:
+            data={}
             data['error']=str (e)
 
         return JsonResponse(data)

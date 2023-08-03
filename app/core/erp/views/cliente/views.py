@@ -47,9 +47,13 @@ class ClienteView(TemplateView):
                 cli=Cliente.objects.get(pk=request.POST['id'])
                 cli.delete()
             else:
-                data['error'] = 'Ha ocurrido un error'
+                data['error'] = 'No ha ingresado a ninguna opcion'
         except Exception as e:
-            data['error'] = str(e)
+            data={}
+            if 'erp_cliente.Cedula' in str(e):
+              data['error']="No puede duplicar la cedula"
+            else:
+              data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):

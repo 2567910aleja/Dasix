@@ -62,6 +62,7 @@ class ProductoCreateView(CreateView):
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
+            data={}
             data['error'] = str(e)
         return JsonResponse(data)
 
@@ -96,6 +97,7 @@ class ProductoUpdateView(UpdateView):
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
+            data={}
             data['error'] = str(e)
         return JsonResponse(data)
 
