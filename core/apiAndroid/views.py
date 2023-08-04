@@ -6,6 +6,7 @@ from django.utils.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.sessions.models import Session
+from core.user.models import User
 
 # funciones
 def verificar_session_id(session_id):
@@ -73,4 +74,50 @@ class CerrarSesion(View):
             data['respuesta']="valido"
         else:
             data['respuesta']="sesion invalida"
+        return JsonResponse(data)
+    
+class Registrar(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        data={}
+        #Obtengo los valores
+        nombre=request.POST.get('usuario', "")
+        password=request.POST.get('password', "")
+        confiPassword=request.POST.get('passwordConfirmacion', "")
+        # Valido si alguno esta vacio
+        if nombre=="":
+            data['error']=['El nombre no puede estar vacio']
+            return JsonResponse(data)
+        # valido que el usuario no exista
+        if User.objects.filter(username__iexact=nombre).exists():
+            data['error']="El usuario ya existe"
+            return JsonResponse(data)
+        if password=="":
+            data['error']=['La contraseña no puede estar vacia']
+            return JsonResponse(data)
+        if confiPassword=="":
+            data['error']=['La confirmacion de contraseña no coincide']
+            return JsonResponse(data)
+        #Valido que la contraseña tenga más de 8 caracteres y que el password sea igual al confiPassword
+        if len(password)<8:
+            data['error']=['La contraseña es menor a 8 caracteres']
+            return JsonResponse(data)
+        if password!=confiPassword:
+            data['error']=['Las contraseñas no coinciden']
+            return JsonResponse(data)
+        
+        #Si todo esta bien creo o registro el usuario
+        #La funcion set_password encripta la contraseña y se la asigna al usuario
+        try:
+            usuarioCrear=User()
+            usuarioCrear.username=nombre
+            usuarioCrear.set_password(password)
+            usuarioCrear.save()
+            data['respuesta']="creado"
+        except Exception as e:
+            data['error']=[str(e)]
+        
         return JsonResponse(data)
