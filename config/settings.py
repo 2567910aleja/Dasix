@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #libs
     'widget_tweaks',
+    'storages',
     #mis app
     'core.erp',
     'core.homepage',
@@ -138,10 +139,11 @@ LOGOUT_REDIRECT_URL='/login/'
 LOGIN_URL='/login/'
 
 #Carpeta raiz donde se guardaran nuestros archivos media
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
+if "WEBSITE_HOSTNAME" not in os.environ:
+    MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 #Url absoluta para trabajar con los archivos media
-MEDIA_URL='/media/'
+MEDIA_URL='media/'
 
 AUTH_USER_MODEL='user.User'
 

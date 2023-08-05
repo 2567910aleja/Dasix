@@ -21,7 +21,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 conn_str = os.environ['AZURE_MYSQL_CONNECTIONSTRING']
@@ -39,3 +39,18 @@ DATABASES = {
         'PASSWORD': conn_str_params['password'],
     }
 }
+
+# alamacenamiento con Azure
+
+azure_storage_blob = os.environ['AZURE_STORAGE_BLOB']
+azure_storage_blob_parametros = {parte.split(' = ')[0]:parte.split(' = ')[1] for parte in azure_storage_blob.split('  ')}
+
+AZURE_CONTAINER = azure_storage_blob_parametros['container_name']
+AZURE_ACCOUNT_NAME = azure_storage_blob_parametros['account_name']
+AZURE_ACCOUNT_KEY = azure_storage_blob_parametros['account_key']
+STORAGES = {
+    "default": {"BACKEND": "storages.backends.azure_storage.AzureStorage"},
+    "staticfiles": {"BACKEND": "custom_storage.custom_azure.PublicAzureStaticStorage"},
+    "media": {"BACKEND": "custom_storage.custom_azure.PublicAzureMediaStorage"},
+}
+#AZURE_STORAGE_BLOB = account_name = contenedordasix  container_name = django-dasix  account_key = vT1l/DKQHh/tap5/GK0LjmtA1W4SqTDA1IbL7M+iYit1FALrry0kmTz3BEDqsqB+PnMimTxouZQi+AStUN9fMw==
