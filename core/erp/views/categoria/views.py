@@ -47,7 +47,7 @@ class CategoriaListView(IsSuperuserMixin,ListView):
 class CategoriaCreateView(CreateView):
     model=Categoria
     form_class=CategoriaForm
-    template_name='Categoria/create.html'
+    template_name='categoria/create.html'
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
@@ -89,7 +89,7 @@ class CategoriaCreateView(CreateView):
 class CategoriaUpdateView(UpdateView):
     model=Categoria
     form_class=CategoriaForm
-    template_name='Categoria/create.html'
+    template_name='categoria/create.html'
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
@@ -123,7 +123,7 @@ class CategoriaUpdateView(UpdateView):
     
 class CategoriaDeleteView(DeleteView):
     model=Categoria
-    template_name='Categoria/delete.html'
+    template_name='categoria/delete.html'
     success_url=reverse_lazy('erp:categoria_list')
 
     @method_decorator(csrf_exempt)
