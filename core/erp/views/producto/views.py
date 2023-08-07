@@ -4,14 +4,17 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from core.erp.mixins import ValidatePermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from core.erp.forms import ProductoForm
 from core.erp.models import Producto
 
 
-class ProductoListView(ListView):
+class ProductoListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Producto
     template_name = 'producto/list.html'
+    permission_required = 'erp.view_producto'
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -41,11 +44,13 @@ class ProductoListView(ListView):
         return context
 
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'producto/create.html'
     success_url = reverse_lazy('erp:producto_list')
+    permission_required = 'erp.add_producto'
+    url_redirect = success_url
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -70,16 +75,18 @@ class ProductoCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Creación de un Producto'
         context['entity'] = 'Productos'
-        context['list_url'] = reverse_lazy('erp:producto_list')
+        context['list_url'] = self.success_url
         context['action'] = 'add'
         return context
 
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'producto/create.html'
     success_url = reverse_lazy('erp:producto_list')
+    permission_required = 'erp.change_producto'
+    url_redirect = success_url
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -105,15 +112,17 @@ class ProductoUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de un Producto'
         context['entity'] = 'Productos'
-        context['list_url'] = reverse_lazy('erp:producto_list')
+        context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
 
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Producto
     template_name = 'producto/delete.html'
     success_url = reverse_lazy('erp:producto_list')
+    permission_required = 'erp.delete_producto'
+    url_redirect = success_url
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -133,5 +142,5 @@ class ProductoDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Eliminación de un Producto'
         context['entity'] = 'Productos'
-        context['list_url'] = reverse_lazy('erp:producto_list')
+        context['list_url'] = self.success_url
         return context

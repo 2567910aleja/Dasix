@@ -16,7 +16,6 @@
     </div>
     <div class="card-body">
         {% csrf_token %}
-        {{ form.non_field_errors }}
         <input type="hidden" name="action" value="{{ action }}">
         {% if form.errors %}
         <div class="alert alert-danger alert-dismissible">
@@ -40,7 +39,7 @@
         </div>
         
           <div class='card-footer'></div>
-          <button type="submit" class="btn btn-primary btn-flat btnTest"><i class="fas fa-save"></i> Guardar registro</button>
+          <button type="submit" class="btn btn-primary btn-flat "><i class="fas fa-save"></i> Guardar registro</button>
           <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar</a>
           </div>
     </div>

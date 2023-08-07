@@ -12,24 +12,5 @@
 {% endblock %}
 
 {% block rows %}
-    {% for obj in object_list %}
-        <tr>
-            <td>{{ obj.id }}</td>
-            <td>{{ obj.Nombre }}</td>
-            <td>{{ obj.cate.Nombre }}</td>
-            <td class="text-center">
-                <!--{{ obj.image } }-->
-                <img src="{{ obj.get_image }}" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">
-            </td>
-            <td>{{ obj.pvp }}</td>
-            <td class="text-center">
-                <a href="{% url 'erp:producto_update' obj.id %}" class="btn btn-primary btn-xs btn-flat">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'erp:producto_delete' obj.id %}" class="btn btn-danger btn-xs btn-flat">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </td>
-        </tr>
-    {% endfor %}
+   
 {% endblock %}
