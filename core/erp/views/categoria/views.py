@@ -6,16 +6,18 @@ from django.views.decorators.csrf import *
 from core.erp.forms import *
 from django.urls import *
 from django.contrib.auth.decorators import * 
-from core.erp.mixins import IsSuperuserMixin 
+from core.erp.mixins import IsSuperuserMixin, ValidatePermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
-class CategoriaListView(IsSuperuserMixin,ListView):
 
+class CategoriaListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
+    permission_required='erp.view_categoria'
     model=Categoria
     template_name='categoria/list.html'
 
     @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
+    #@method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
