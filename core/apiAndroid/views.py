@@ -6,6 +6,7 @@ from django.utils.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.sessions.models import Session
+from core.erp.models import Cliente
 from core.user.models import User
 
 # funciones
@@ -139,6 +140,16 @@ class cargaDatos(View):
         # Aleja
         if accion=="tiposUsuarios":
             data['tiposUsuarios']=['cliente','usuario']
+        elif accion=="cargarUsuarios":
+            usuarios=User.objects.all()
+            data['usuarios']=[]
+            for user in usuarios:
+                data['usuarios'].append(user.toJSON())              
+        elif accion=="cargarClientes":
+            clientes=Cliente.objects.all()
+            data['clientes']=[]
+            for client in clientes:
+                data['clientes'].append(client.toJSON())
         else:
             data['error']=['No se envio una accion']
         return JsonResponse(data)
