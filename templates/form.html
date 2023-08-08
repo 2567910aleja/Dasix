@@ -35,8 +35,9 @@
         <div class='form-group'>
             <label for="email">{{ field.label }}:</label>
             {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
-        {% endfor %}
         </div>
+        {% endfor %}
+       
         
           <div class='card-footer'></div>
           <button type="submit" class="btn btn-primary btn-flat "><i class="fas fa-save"></i> Guardar registro</button>
@@ -45,6 +46,10 @@
     </div>
 </div>
 </form>
+
+{% endblock %}
+
+{% block javascript %}
 <script>
     {% if form.errors %}
         var errors = '';
@@ -77,5 +82,4 @@
 
 
 </script>
-
-{% endblock %}
+    {% endblock %}

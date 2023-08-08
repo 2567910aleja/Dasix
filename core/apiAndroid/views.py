@@ -121,3 +121,24 @@ class Registrar(View):
             data['error']=[str(e)]
         
         return JsonResponse(data)
+
+class cargaDatos(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        data={}
+        # verificar el session_id
+        session_id=request.POST.get("session_id","")
+        if session_id=="" or verificar_session_id(session_id) is None:
+            data['error']=['session invalida']
+            return JsonResponse(data)
+
+        accion = request.POST.get("accion")
+        # Aleja
+        if accion=="tiposUsuarios":
+            data['tiposUsuarios']=['cliente','usuario']
+        else:
+            data['error']=['No se envio una accion']
+        return JsonResponse(data)

@@ -15,7 +15,7 @@ $(function () {
         columns: [
             {"data": "id"},
             {"data": "Nombre"},
-            {"data": "cate.name"},
+            {"data": "cate.Nombre"},
             {"data": "image"},
             {"data": "pvp"},
             {"data": "id"},

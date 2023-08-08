@@ -1,5 +1,8 @@
 {% extends 'list.html' %}
 {% load static %}
+{% block head_list %}
+<script src="{% static 'producto/js/list.js' %}"></script>
+{% endblock %}
 {% block columnas %}
     <tr>
         <th scope="col" style="width: 10%;">Nro</th>
@@ -13,4 +16,6 @@
 
 {% block rows %}
    
+{% endblock %}
+{% block javascript %}
 {% endblock %}

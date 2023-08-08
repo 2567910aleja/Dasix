@@ -56,6 +56,12 @@ class Producto(models.Model):
         verbose_name='Producto'
         verbose_name_plural='Productos'
         ordering=['id']
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['cate']={"id":self.cate.id,"Nombre":self.cate.Nombre}
+        item['image']=self.get_image()
+        return item
 
 class Cliente(models.Model):
     Nombres=models.CharField(max_length=150)
