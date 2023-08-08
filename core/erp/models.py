@@ -6,6 +6,8 @@ from config.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
 from crum import get_current_user
 
+AZURE_STATIC="https://contenedordasix.blob.core.windows.net/django-dasix"+STATIC_URL
+
 gender_choices = (
     ('male','Masculino'),
     ('female','Femenino'),
@@ -51,7 +53,11 @@ class Producto(models.Model):
     def get_image(self):
         if self.image:
             return self.image.url
-        return '{}{}'.format(STATIC_URL, 'img/empty.webp')
+        AZURE_STATIC
+        if "WEBSITE_HOSTNAME" in os.environ:
+            return '{}{}'.format(AZURE_STATIC, 'img/empty.webp')
+        else:
+            return '{}{}'.format(STATIC_URL, 'img/empty.webp')
     class Meta:
         verbose_name='Producto'
         verbose_name_plural='Productos'
