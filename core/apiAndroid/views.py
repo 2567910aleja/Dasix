@@ -149,7 +149,10 @@ class cargaDatos(View):
             clientes=Cliente.objects.all()
             data['clientes']=[]
             for client in clientes:
-                data['clientes'].append(client.toJSON())
+                item=client.toJSON()
+                item['Sexo']=item['Sexo']['name']
+                data['clientes'].append(item)
+                
         else:
             data['error']=['No se envio una accion']
         return JsonResponse(data)
