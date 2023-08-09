@@ -5,6 +5,10 @@
     <link href="{% static 'libs/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
     <script src="{% static 'libs/select2-4.0.13/js/select2.min.js' %}"></script>
     <script src="{% static 'libs/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+    <script src="{% static 'libs/moment-2.25.3/moment-with-locales.js' %}"></script>
+    <script src="{% static 'libs/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link href="{% static 'libs/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet"/>
     <script src="{% static 'venta/js/form.js' %}"></script>
 {% endblock %}
 {% block content %}
@@ -87,8 +91,8 @@
             </div>
         </div>
           <div class='card-footer'></div>
-          <a class="btn btn-primary btn-flat btnTest"><i class="fas fa-plus"></i> Nuevo registro</a>
-          <a href="{{ list_url }}" class="btn btn-success"><i class="fas fa-sync"></i> Actualizar</a>
+          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Guardar registro</button>
+        <a href="{{ list_url }}" class="btn btn-danger btn-flat"><i class="fas fa-times"></i> Cancelar</a>
           </div>
     </div>
 

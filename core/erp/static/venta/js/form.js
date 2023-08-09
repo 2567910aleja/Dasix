@@ -3,4 +3,11 @@ $(function () {
         theme: "bootstrap4",
         language: 'es'
     });
+
+    $('#Date_joined').datetimepicker({
+        format: 'YYYY-MM-DD',
+        date: moment().format("YYYY-MM-DD"),
+        locale: 'es',
+        //minDate: moment().format("YYYY-MM-DD")
+    });
 });

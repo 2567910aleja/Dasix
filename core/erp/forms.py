@@ -169,6 +169,19 @@ class VentaForm(ModelForm):
         self.fields['Cli'].widget.attrs['class'] = 'form-control select2'
         self.fields['Cli'].widget.attrs['style'] = 'width: 100%'
 
+        self.fields['Date_joined'].widget.attrs={
+            'autocomplete': 'off',
+            'class':'form-control datetimepicker-input',
+            'id': 'Date_joined',
+            'data-target':'Date_joined',
+            'data-toggle': 'datetimepicker'
+        }
+
+        self.fields['Subtotal'].widget.attrs={
+            'readonly': True,
+            'class':'form-control',
+        }
+
     class Meta:
         model = Venta
         fields = '__all__'
