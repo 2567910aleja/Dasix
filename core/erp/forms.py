@@ -158,3 +158,28 @@ class ClienteForm(ModelForm):
     #         raise forms.ValidationError('Validacion xxx')
     #         # self.add_error('name', 'Le faltan caracteres')
     #     return cleaned
+
+class VentaForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class']= 'form-control'
+            form.field.widget.attrs['autocomplete']= 'off'
+        self.fields['Cli'].widget.attrs['autofocus'] = True
+        self.fields['Cli'].widget.attrs['class'] = 'form-control select2'
+        self.fields['Cli'].widget.attrs['style'] = 'width: 100%'
+
+    class Meta:
+        model = Venta
+        fields = '__all__'
+        widgets = {
+            'Cli': Select(attrs={
+                'class': 'form-control select2',
+                'style': 'width: 100%'
+            }),
+            'Date_joined': DateInput(format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                }
+            ),  
+        }

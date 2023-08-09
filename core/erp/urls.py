@@ -1,6 +1,7 @@
 from django.urls import path
 from core.erp.views.categoria.views import *
 from core.erp.views.cliente.views import *
+from core.erp.views.venta.views import *
 from core.erp.views.dashboard.views import *
 from core.erp.views.producto.views import *
 from core.erp.views.tests.views import TestView
@@ -31,4 +32,7 @@ urlpatterns = [
 
     #test
     path('tests/', TestView.as_view(), name='tests'),
+
+    #Venta
+    path('venta/add/', VentaCreateView.as_view(), name='venta_create'),
 ]        
