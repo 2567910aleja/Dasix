@@ -43,7 +43,7 @@ $(function () {
                 url: window.location.pathname, 
                 type: "POST",
                 data: {
-                    'action':'search-productos',cd Dasix
+                    'action':'search-productos',
                     'term': request.term
                 }, 
                 dataType: "json",

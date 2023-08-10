@@ -26,14 +26,15 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
             action = request.POST['action']
             if action == 'search-productos':
                 data=[]
-                produ=Producto.objects.filter(name__icontains=request.POST['term'])
+                produ=Producto.objects.filter(Nombre__icontains=request.POST['term'])
                 for i in produ:
-                    item=i.toJSON
+                    item=i.toJSON()
                     item['value']=i.Nombre
                     data.append(item)
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
+            data={}
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
