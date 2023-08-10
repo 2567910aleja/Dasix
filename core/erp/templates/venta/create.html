@@ -1,4 +1,5 @@
 {% extends 'list.html' %}
+{% load widget_tweaks %}
 {% load static %}
 {% block head_list %}
     <link href="{% static 'libs/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
@@ -72,7 +73,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>Fecha de venta:</label>
-                            {{ form.Date_joined }}
+                            {{ form.Date_joined |attr:'type:date' }}
                         </div>
                         <div class="form-group">
                             <label>Cliente:</label>
