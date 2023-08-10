@@ -1,10 +1,12 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from core.erp.mixins import ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from core.erp.models import Venta
+from core.erp.models import Venta, Producto
 from core.erp.forms import VentaForm
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model= Venta
@@ -14,6 +16,7 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
     permission_required='erp.add_venta'
     url_redirect=success_url
 
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
          return super().dispatch(request, *args, **kwargs)
 
@@ -21,14 +24,18 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
         data = {}
         try:
             action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                data = form.save()
+            if action == 'search-productos':
+                data=[]
+                produ=Producto.objects.filter(name__icontains=request.POST['term'])
+                for i in produ:
+                    item=i.toJSON
+                    item['value']=i.Nombre
+                    data.append(item)
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
