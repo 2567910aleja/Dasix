@@ -165,22 +165,6 @@ class VentaForm(ModelForm):
         for form in self.visible_fields():
             form.field.widget.attrs['class']= 'form-control'
             form.field.widget.attrs['autocomplete']= 'off'
-        self.fields['Cli'].widget.attrs['autofocus'] = True
-        self.fields['Cli'].widget.attrs['class'] = 'form-control select2'
-        self.fields['Cli'].widget.attrs['style'] = 'width: 100%'
-
-        self.fields['Date_joined'].widget.attrs={
-            'autocomplete': 'off',
-            'class':'form-control datetimepicker-input',
-            'id': 'Date_joined',
-            'data-target':'Date_joined',
-            'data-toggle': 'datetimepicker'
-        }
-
-        self.fields['Subtotal'].widget.attrs={
-            'readonly': True,
-            'class':'form-control',
-        }
 
     class Meta:
         model = Venta
@@ -193,6 +177,22 @@ class VentaForm(ModelForm):
             'Date_joined': DateInput(format='%Y-%m-%d',
                 attrs={
                     'value': datetime.now().strftime('%Y-%m-%d'),
+                    'autocomplete': 'off',
+                    'class':'form-control datetimepicker-input',
+                    'id': 'Date_joined',
+                    'data-target':'Date_joined',
+                    'data-toggle': 'datetimepicker'
                 }
             ),  
+            'Iva': TextInput(attrs={
+                'class':'form-control'
+            }),
+            'Subtotal':TextInput(attrs={
+                'readonly': True,
+                'class':'form-control',
+            }),
+            'Total':TextInput(attrs={
+                'readonly': True,
+                'class':'form-control',
+            })
         }
