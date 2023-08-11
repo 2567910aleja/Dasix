@@ -1,4 +1,4 @@
-var verts={
+var ventas={
     items:{
         Cli:'',
         Date_joined:'',
@@ -7,9 +7,51 @@ var verts={
         Total:0.00,
         productos:[]
     },
-    add: function(){
-
-    }
+    list: function(){
+        $('#tblProductos').DataTable({
+            responsive: true,
+            autoWidth: false,
+            destroy: true,
+            data: this.items.productos,
+            columns: [
+                { "data": "id"},
+                { "data": "Nombre"},
+                { "data": "cate.name"},
+                { "data": "pvp"},
+                { "data": "cant"},
+                { "data": "subtotal"},
+            ],
+            columnDefs: [
+                {
+                    targets: [0],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<a rel="remove" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                    }
+                },
+                {
+                    targets: [-3, -1],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '$'+parseFloat(data).toFixed(2);
+                    }
+                },
+                {
+                    targets: [-2],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<input type="text" name="cant" class="form-control form-control-sm" autocomplete="off">';
+                    }
+                },
+            ],
+            initComplete: function(settings, json) {
+    
+              }
+        });
+    },
 };
 
 $(function () {
@@ -60,7 +102,13 @@ $(function () {
         delay: 500,
         minLength: 1,
         select: function (event, ui) {
-            console.log(ui.item)
-        },
+            event.preventDefault();
+            ui.item.cant=1;
+            ui.item.subtotal=0.00;
+            console.log(ventas.items);
+            ventas.items.productos.push(ui.item);
+            ventas.list();
+            $(this).val('');
+        }
     });
 });
