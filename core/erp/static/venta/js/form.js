@@ -7,6 +7,10 @@ var ventas={
         Total:0.00,
         productos:[]
     },
+    add: function(item){
+        this.items.productos.push(item);
+        this.list();
+    },
     list: function(){
         $('#tblProductos').DataTable({
             responsive: true,
@@ -16,7 +20,7 @@ var ventas={
             columns: [
                 { "data": "id"},
                 { "data": "Nombre"},
-                { "data": "cate.name"},
+                { "data": "cate.Nombre"},
                 { "data": "pvp"},
                 { "data": "cant"},
                 { "data": "subtotal"},
@@ -43,7 +47,7 @@ var ventas={
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<input type="text" name="cant" class="form-control form-control-sm" autocomplete="off">';
+                        return '<input type="text" name="cant" class="form-control form-control-sm" autocomplete="off" value="'+row.cant+'">';
                     }
                 },
             ],
@@ -106,8 +110,7 @@ $(function () {
             ui.item.cant=1;
             ui.item.subtotal=0.00;
             console.log(ventas.items);
-            ventas.items.productos.push(ui.item);
-            ventas.list();
+            ventas.add(ui.item);
             $(this).val('');
         }
     });
