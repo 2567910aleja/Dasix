@@ -1,3 +1,4 @@
+var tblProductos;
 var ventas={
     items:{
         Cli:'',
@@ -27,7 +28,7 @@ var ventas={
     },
     list: function(){
         this.calcular_factura();
-        $('#tblProductos').DataTable({
+        tblProductos = $('#tblProductos').DataTable({
             responsive: true,
             autoWidth: false,
             destroy: true,
@@ -50,7 +51,7 @@ var ventas={
                     }
                 },
                 {
-                    targets: [-3, -1],
+                    targets: [-3],
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
@@ -62,10 +63,28 @@ var ventas={
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<input type="text" name="cant" class="form-control form-control-sm" autocomplete="off" value="'+row.cant+'">';
+                        return '<input type="text" name="cant" class="form-control form-control-sm input-sm"  autocomplete="off" value="'+row.cant+'">';
+                    }
+                },
+                {
+                    targets: [-1],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '$' + parseFloat(data).toFixed(2);
                     }
                 },
             ],
+            
+            // esta funcion "rowCallback" me permite modificar algunos valores de la tabla a medida que se vaya 
+            // creando nuevos registros en mi tabla
+            rowCallback(row, data, displayNum, displayIndex, dataIndex){
+                $(row).find('input[name="cant"]').TouchSpin({
+                    min:1,
+                    max:100000000,
+                    step:1
+                });
+            },
             initComplete: function(settings, json) {
     
               }
@@ -96,8 +115,7 @@ $(function () {
         postfix: '%'
     }).on('change', function(){
         ventas.calcular_factura();
-    })
-    .val(0.12);
+    }).val(0.12);
 
     //Busqueda de los productos
 
@@ -131,5 +149,19 @@ $(function () {
             ventas.add(ui.item);
             $(this).val('');
         }
+    });
+    // evento de cantidad
+    $('#tblProductos tbody')
+    .on('click', 'a[rel="remove"]', function(){
+        var tr=tblProductos.cell($(this).closest('td, li')).index();
+        ventas.items.productos.splice(tr.row, 1);
+        ventas.list();
+    })
+    .on('change keyup', 'input[name="cant"]', function(){
+        var cant=parseInt($(this).val());
+        var tr=tblProductos.cell($(this).closest('td, li')).index();
+        ventas.items.productos[tr.row].cant=cant;
+        ventas.calcular_factura();
+        $('td:eq(5)', tblProductos.row(tr.row).node()).html( '$'+ventas.items.productos[tr.row].Subtotal.toFixed(2));
     });
 });
