@@ -7,11 +7,26 @@ var ventas={
         Total:0.00,
         productos:[]
     },
+    calcular_factura: function(){
+        var Subtotal=0.00;
+        var iva=$('input[name="Iva"]').val();
+        $.each(this.items.productos, function(pos, dict){
+            dict.Subtotal=dict.cant * parseFloat(dict.pvp);
+            Subtotal+=dict.Subtotal;
+        });
+        this.items.Subtotal=Subtotal;
+        this.items.Iva=this.items.Subtotal * iva;
+        this.items.Total=this.items.Subtotal + this.items.Iva;
+        $('input[name="Subtotal"]').val(this.items.Subtotal.toFixed(2));
+        $('input[name="ivacalc"]').val(this.items.Iva.toFixed(2));
+        $('input[name="Total"]').val(this.items.Total.toFixed(2));
+    },
     add: function(item){
         this.items.productos.push(item);
         this.list();
     },
     list: function(){
+        this.calcular_factura();
         $('#tblProductos').DataTable({
             responsive: true,
             autoWidth: false,
@@ -74,12 +89,15 @@ $(function () {
     $("input[name='Iva']").TouchSpin({
         min: 0,
         max: 100,
-        step: 0.1,
+        step: 0.01,
         decimals: 2,
         boostat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    });
+    }).on('change', function(){
+        ventas.calcular_factura();
+    })
+    .val(0.12);
 
     //Busqueda de los productos
 

@@ -26,7 +26,7 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
             action = request.POST['action']
             if action == 'search-productos':
                 data=[]
-                produ=Producto.objects.filter(Nombre__icontains=request.POST['term'])
+                produ=Producto.objects.filter(Nombre__icontains=request.POST['term'])[0:10]
                 for i in produ:
                     item=i.toJSON()
                     item['value']=i.Nombre
