@@ -47,7 +47,7 @@ var ventas={
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<a rel="remove" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                        return '<a rel="remove" class="btn btn-danger btn-s btn-flat" style="color: white;"><i class="fas fa-trash-alt"></i></a>';
                     }
                 },
                 {
@@ -150,12 +150,24 @@ $(function () {
             $(this).val('');
         }
     });
+
+    $('.btnRemoveAll').on('click', function(){
+        if(ventas.items.productos.length==0) return false;
+        alert_action('Notificacion', '¿Estas seguro de eliminar todos los items de tu detalle?', function(){
+            ventas.items.productos=[];
+            ventas.list();
+        });
+    });
+
     // evento de cantidad
     $('#tblProductos tbody')
     .on('click', 'a[rel="remove"]', function(){
         var tr=tblProductos.cell($(this).closest('td, li')).index();
-        ventas.items.productos.splice(tr.row, 1);
-        ventas.list();
+        alert_action('Notificacion', '¿Estas seguro de eliminar el producto de tu detalle?', function(){
+            ventas.items.productos.splice(tr.row, 1);
+            ventas.list();
+        });
+
     })
     .on('change keyup', 'input[name="cant"]', function(){
         var cant=parseInt($(this).val());
