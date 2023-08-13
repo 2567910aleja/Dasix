@@ -39,7 +39,7 @@ var ventas={
                 { "data": "cate.Nombre"},
                 { "data": "pvp"},
                 { "data": "cant"},
-                { "data": "subtotal"},
+                { "data": "Subtotal"},
             ],
             columnDefs: [
                 {
@@ -176,4 +176,18 @@ $(function () {
         ventas.calcular_factura();
         $('td:eq(5)', tblProductos.row(tr.row).node()).html( '$'+ventas.items.productos[tr.row].Subtotal.toFixed(2));
     });
+
+    //evento del submin
+    $('form').on('submit', function (e){
+        e.preventDefault();
+        ventas.items.Date_joined=$('input[name="Date_joined"]').val();
+        ventas.items.Date_joined=$('input[name="Cli"]').val();
+        //var parametros = $(this).serializeArray();
+        var parametros = new FormData();
+        parametros.append('action', $('input[name="action"]').val());
+        parametros.append('ventas', JSON.stringify(ventas.items));
+        submit_with_ajax(window.location.pathname,'Guardar', '¿Quiere realizar esta accion?', parametros, function (){
+          location.href = '/erp/dashboard/'
+        });
+      });
 });
