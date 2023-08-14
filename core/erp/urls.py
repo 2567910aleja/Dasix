@@ -34,5 +34,7 @@ urlpatterns = [
     path('tests/', TestView.as_view(), name='tests'),
 
     #Venta
+    path('venta/list/', VentaListView.as_view(), name='venta_list'),
     path('venta/add/', VentaCreateView.as_view(), name='venta_create'),
+    path('venta/delete/<int:pk>/', VentaDeleteView.as_view(), name='venta_delete'),
 ]        

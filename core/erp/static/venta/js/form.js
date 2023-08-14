@@ -191,7 +191,7 @@ $(function () {
         parametros.append('action', $('input[name="action"]').val());
         parametros.append('ventas', JSON.stringify(ventas.items));
         submit_with_ajax(window.location.pathname,'Guardar', '¿Quiere realizar esta accion?', parametros, function (){
-          location.href = '/erp/dashboard/'
+          location.href = '/erp/venta/list/'
         });
       });
 
