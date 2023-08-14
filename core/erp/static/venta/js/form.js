@@ -100,7 +100,7 @@ $(function () {
 
     $('#Date_joined').datetimepicker({
         format: 'YYYY-MM-DD',
-        date: moment().format("YYYY-MM-DD"),
+        defaultDate: moment().format("YYYY-MM-DD"),
         locale: 'es',
         //minDate: moment().format("YYYY-MM-DD")
     });
@@ -177,11 +177,15 @@ $(function () {
         $('td:eq(5)', tblProductos.row(tr.row).node()).html( '$'+ventas.items.productos[tr.row].Subtotal.toFixed(2));
     });
 
-    //evento del submin
+    //evento del submit
     $('form').on('submit', function (e){
         e.preventDefault();
+        if (ventas.items.productos.length == 0){
+            message_error('Debe tener al menos un item en su detalle de venta');
+            return false;
+        }
         ventas.items.Date_joined=$('input[name="Date_joined"]').val();
-        ventas.items.Date_joined=$('input[name="Cli"]').val();
+        ventas.items.Cli=$('select[name="Cli"]').val();
         //var parametros = $(this).serializeArray();
         var parametros = new FormData();
         parametros.append('action', $('input[name="action"]').val());
@@ -190,4 +194,6 @@ $(function () {
           location.href = '/erp/dashboard/'
         });
       });
+
+      ventas.list();
 });

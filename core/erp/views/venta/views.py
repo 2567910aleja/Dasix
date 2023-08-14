@@ -1,5 +1,6 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from core.erp.mixins import ValidatePermissionRequiredMixin
+from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.erp.models import Venta, Producto, DetalleVenta
 from core.erp.forms import VentaForm
@@ -33,25 +34,25 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
                     item['value']=i.Nombre
                     data.append(item)
             elif action=='add':
-                ventas=json.loads(request.POST['ventas'])
+                with transaction.atomic():
+                    ventas=json.loads(request.POST['ventas'])
 
-                venta=Venta()
-                venta.Date_joined=ventas['Date_joined']
-                venta.Cli_id=ventas['Cli']
-                venta.Subtotal=float(ventas['Subtotal'])
-                venta.Iva=float(ventas['Iva'])
-                venta.Total=float(ventas['Total'])
-                venta.save()
+                    venta=Venta()
+                    venta.Date_joined=ventas['Date_joined']
+                    venta.Cli_id=ventas['Cli']
+                    venta.Subtotal=float(ventas['Subtotal'])
+                    venta.Iva=float(ventas['Iva'])
+                    venta.Total=float(ventas['Total'])
+                    venta.save()
 
-                for i in ventas['productos']:
-                    det=DetalleVenta()
-                    det.venta_id=venta_id
-                    det.produ_id=i['id']
-                    det.cant=int(i['cant'])
-                    det.Precio=float(i['pvp'])
-                    det.Subtotal=float(i['Subtotal'])
-                    det.save()
-
+                    for i in ventas['productos']:
+                        det=DetalleVenta()
+                        det.Venta_id=venta.id
+                        det.Produ_id=i['id']
+                        det.Cantidad=int(i['cant'])
+                        det.Precio=float(i['pvp'])
+                        det.Subtotal=float(i['Subtotal'])
+                        det.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
