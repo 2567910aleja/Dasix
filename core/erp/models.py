@@ -107,6 +107,12 @@ class Venta(models.Model):
         verbose_name_plural='Ventas'
         ordering=['id']
 
+    def toJSON(self):
+        item=model_to_dict(self)
+        item['Cli']={"id": self.Cli.id, "Nombres": self.Cli.Nombres}
+        item['Date_joined']=self.Date_joined.strftime('%Y-%m-%d')
+        return item
+
 class DetalleVenta(models.Model):
     Venta=models.ForeignKey(Venta, on_delete=models.CASCADE)
     Produ=models.ForeignKey(Producto, on_delete=models.CASCADE)
@@ -121,3 +127,10 @@ class DetalleVenta(models.Model):
         verbose_name = 'Detalle de Venta'
         verbose_name_plural = 'Detalle de Ventas'
         ordering = ['id']
+
+    def toJSON(self):
+        item=model_to_dict(self, exclude=['Venta'])
+        item['Produ']=self.Produ.toJSON()
+        item['Precio']=format(self.Precio, '2f')
+        item['Subtotal']=format(self.Subtotal, '2f')
+        return item

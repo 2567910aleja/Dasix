@@ -37,6 +37,7 @@ $(function () {
                 orderable: false,
                 render: function (data, type, row) {
                     var buttons = '<a href="/erp/venta/delete/' + row.id + '/" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+                    buttons+='<a rel="detalle" class="btn btn-success btn-s btn-flat"><i class="fas fa-search"></i></a>'
                     //var buttons = '<a href="/erp/venta/update/' + row.id + '/" class="btn btn-warning btn-s btn-flat"><i class="fas fa-edit"></i></a> ';
                     return buttons;
                 }
@@ -45,5 +46,56 @@ $(function () {
         initComplete: function (settings, json) {
 
         }
+    });
+
+    $('#data tbody')
+    .on('click', 'a[rel="detalle"]', function(){
+        var tr=tblVenta.cell($(this).closest('td, li')).index();
+        var data=tblVenta.row(tr.row).data();
+        
+        $('#tblDet').DataTable({
+            responsive: true,
+            autoWidth: false,
+            destroy: true,
+            deferRender: true,
+            //data: data.det,
+            ajax: {
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action': 'search_detalle_produ',
+                    'id': data.id
+                },
+                dataSrc: ""
+            },
+            columns: [
+                {"data": "Produ.Nombre"},
+                {"data": "Produ.cate.Nombre"},
+                {"data": "Precio"},
+                {"data": "Cantidad"},
+                {"data": "Subtotal"},
+            ],
+            columnDefs: [
+                {
+                    targets: [-1, -3],
+                    class: 'text-center',
+                    render: function (data, type, row) {
+                        return '$' + parseFloat(data).toFixed(2);
+                    }
+                },
+                {
+                    targets: [-2],
+                    class: 'text-center',
+                    render: function (data, type, row) {
+                        return data;
+                    }
+                },
+            ],
+            initComplete: function (settings, json) {
+
+            }
+        });
+
+        $('#myModelDet').modal('show');
     });
 });

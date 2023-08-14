@@ -27,6 +27,10 @@ class VentaListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListVie
                 data = []
                 for i in Venta.objects.all():
                     data.append(i.toJSON())
+            elif action=='search_detalle_produ':
+                data=[]
+                for i in DetalleVenta.objects.filter(Venta_id=request.POST['id']):
+                    data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -46,7 +50,7 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
     model= Venta
     form_class= VentaForm
     template_name='venta/create.html'
-    success_url=reverse_lazy('index')
+    success_url=reverse_lazy('erp:venta_list')
     permission_required='erp.add_venta'
     url_redirect=success_url
 
