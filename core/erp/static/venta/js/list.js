@@ -16,7 +16,12 @@ $(function () {
             dataSrc: ""
         },
         columns: [
-            {"data": "id"},
+            {
+                "className":'details-control',
+                "orderable": false,
+                "data":null,
+                "defaultContent":''
+            },
             {"data": "Cli.Nombres"},
             {"data": "Date_joined"},
             {"data": "Subtotal"},
@@ -39,8 +44,8 @@ $(function () {
                 orderable: false,
                 render: function (data, type, row) {
                     var buttons = '<a href="/erp/venta/delete/' + row.id + '/" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+                    buttons += '<a href="/erp/venta/update/' + row.id + '/" class="btn btn-primary btn-s btn-flat"><i class="fas fa-edit"></i></a> ';
                     buttons += '<a rel="detalle" class="btn btn-success btn-s btn-flat"><i class="fas fa-search"></i></a> ';
-                    //var buttons = '<a href="/erp/venta/update/' + row.id + '/" class="btn btn-warning btn-s btn-flat"><i class="fas fa-edit"></i></a> ';
                     return buttons;
                 }
             },

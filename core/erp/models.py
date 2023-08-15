@@ -109,8 +109,13 @@ class Venta(models.Model):
 
     def toJSON(self):
         item=model_to_dict(self)
-        item['Cli']={"id": self.Cli.id, "Nombres": self.Cli.Nombres}
+        #item['Cli']={"id": self.Cli.id, "Nombres": self.Cli.Nombres}
+        item['Cli']=self.Cli.toJSON()
         item['Date_joined']=self.Date_joined.strftime('%Y-%m-%d')
+        item['Subtotal']=format(self.Subtotal, '.2f')
+        item['Iva']=format(self.Iva, '.2f')
+        item['Total']=format(self.Total, '.2f')
+        item['det']=[i.toJSON() for i in self.detalleventa_set.all()]
         return item
 
 class DetalleVenta(models.Model):

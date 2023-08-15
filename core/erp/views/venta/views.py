@@ -106,6 +106,76 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
         context['action'] = 'add'
         return context
 
+class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
+    model = Venta
+    form_class = VentaForm
+    template_name = 'venta/create.html'
+    success_url = reverse_lazy('erp:venta_list')
+    permission_required = 'erp.change_venta'
+    url_redirect = success_url
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_productos':
+                data = []
+                prods = Producto.objects.filter(Nombre__icontains=request.POST['term'])[0:10]
+                for i in prods:
+                    item = i.toJSON()
+                    item['value'] = i.Nombre
+                    data.append(item)
+            elif action == 'edit':
+                with transaction.atomic():
+                    ventas = json.loads(request.POST['ventas'])
+                    #venta = Venta.objects.get(pk=self.get_object().id)
+                    venta = self.get_object()
+                    venta.Date_joined = ventas['Date_joined']
+                    venta.Cli_id = ventas['Cli']
+                    venta.Subtotal = float(ventas['Subtotal'])
+                    venta.Iva = float(ventas['Iva'])
+                    venta.Total = float(ventas['Total'])
+                    venta.save()
+                    venta.detalleventa_set.all().delete()
+                    for i in ventas['productos']:
+                        det = DetalleVenta()
+                        det.Venta_id = venta.id
+                        det.Produ_id = i['id']
+                        det.Cantidad = int(i['Cantidad'])
+                        det.Precio = float(i['pvp'])
+                        det.Subtotal = float(i['Subtotal'])
+                        det.save()
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_detalles_producto(self):
+        data = []
+        try:
+            for i in DetalleVenta.objects.filter(venta_id=self.get_object().id):
+                item = i.Produ.toJSON()
+                item['Cantidad'] = i.Cantidad
+                data.append(item)
+        except:
+            pass
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edición de una Venta'
+        context['entity'] = 'Ventas'
+        context['list_url'] = self.success_url
+        context['action'] = 'edit'
+        context['det'] = json.dumps(self.get_detalles_producto())
+        return context
+
+
 class VentaDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Venta
     template_name = 'venta/delete.html'
