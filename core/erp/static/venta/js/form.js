@@ -11,10 +11,12 @@ var ventas={
     calcular_factura: function(){
         var Subtotal=0.00;
         var iva=$('input[name="Iva"]').val();
+        iva=parseFloat(iva)
         $.each(this.items.productos, function(pos, dict){
-            dict.Subtotal=dict.cant * parseFloat(dict.pvp);
+            dict.Subtotal=dict.Cantidad * parseFloat(dict.pvp);
             Subtotal+=dict.Subtotal;
         });
+        
         this.items.Subtotal=Subtotal;
         this.items.Iva=this.items.Subtotal * iva;
         this.items.Total=this.items.Subtotal + this.items.Iva;
@@ -63,7 +65,7 @@ var ventas={
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<input type="text" name="cant" class="form-control form-control-sm input-sm"  autocomplete="off" value="'+row.cant+'">';
+                        return '<input type="text" name="cant" class="form-control form-control-sm input-sm"  autocomplete="off" value="'+row.Cantidad+'">';
                     }
                 },
                 {
@@ -134,7 +136,7 @@ $(function () {
                 response(data);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        // alert(`${textStatus} : ${errorThrown}`);
+        //alert(`${textStatus} : ${errorThrown}`);
       })
       .always(function () {
       });
@@ -143,9 +145,9 @@ $(function () {
         minLength: 1,
         select: function (event, ui) {
             event.preventDefault();
-            ui.item.cant=1;
-            ui.item.subtotal=0.00;
-            console.log(ventas.items);
+            console.log(ui.item)
+            ui.item.Cantidad=1;
+            ui.item.Subtotal=0.00;
             ventas.add(ui.item);
             $(this).val('');
         }
@@ -172,7 +174,8 @@ $(function () {
     .on('change keyup', 'input[name="cant"]', function(){
         var cant=parseInt($(this).val());
         var tr=tblProductos.cell($(this).closest('td, li')).index();
-        ventas.items.productos[tr.row].cant=cant;
+        
+        ventas.items.productos[tr.row].Cantidad=cant;
         ventas.calcular_factura();
         $('td:eq(5)', tblProductos.row(tr.row).node()).html( '$'+ventas.items.productos[tr.row].Subtotal.toFixed(2));
     });

@@ -87,7 +87,7 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
                         det=DetalleVenta()
                         det.Venta_id=venta.id
                         det.Produ_id=i['id']
-                        det.Cantidad=int(i['cant'])
+                        det.Cantidad=int(i['Cantidad'])
                         det.Precio=float(i['pvp'])
                         det.Subtotal=float(i['Subtotal'])
                         det.save()
@@ -122,7 +122,7 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
         data = {}
         try:
             action = request.POST['action']
-            if action == 'search_productos':
+            if action == 'search-productos':
                 data = []
                 prods = Producto.objects.filter(Nombre__icontains=request.POST['term'])[0:10]
                 for i in prods:
@@ -158,9 +158,12 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
     def get_detalles_producto(self):
         data = []
         try:
-            for i in DetalleVenta.objects.filter(venta_id=self.get_object().id):
+            for i in DetalleVenta.objects.filter(Venta_id=self.get_object().id):
                 item = i.Produ.toJSON()
                 item['Cantidad'] = i.Cantidad
+                # pasarlos a flotantes porque los Decimal no se puede serializar
+                item['pvp']=float(item['pvp'])
+                item['Subtotal']=float(i.Subtotal)
                 data.append(item)
         except:
             pass

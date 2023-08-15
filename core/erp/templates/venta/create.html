@@ -113,21 +113,23 @@
     </div>
 </form>
 
-<script>
-    ventas.items.productos={{ det|safe }};
-    ventas.list()
-</script>
 
 {% endblock %}
 
 {% block javascript %}
 <script>
+    {% if "/erp/venta/update/" in request.path %}
+    ventas.items.productos={{ det|safe }};
+    {% endif %}
+</script>
+<script>
     $(document).ready(function(){
+        
         //Seleciono el boton por su id
         $('#btnBorrarInput').click(function(){
             //Limpio el valor del input
-            $('#inputBuscar').val('');
-        });
-    });
+            $('#inputBuscar').val('')
+        })
+    })
 </script>
 {% endblock javascript %}
