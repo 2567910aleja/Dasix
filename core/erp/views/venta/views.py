@@ -67,7 +67,8 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
                 produ=Producto.objects.filter(Nombre__icontains=request.POST['term'])[0:10]
                 for i in produ:
                     item=i.toJSON()
-                    item['value']=i.Nombre
+                    #item['value']=i.Nombre
+                    item['text']=i.Nombre
                     data.append(item)
             elif action=='add':
                 # El transaction.atomic sirve para cuando hay un error no se guarde solo una parte, la funcion

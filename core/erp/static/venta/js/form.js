@@ -94,6 +94,31 @@ var ventas={
     },
 };
 
+function formatRepo(repo) {
+    if (repo.loading) {
+        return repo.text;
+    }
+
+    var option = $(
+        '<div class="wrapper container">'+
+        '<div class="row">' +
+        '<div class="col-lg-1">' +
+        '<img src="' + repo.image + '" class="img-fluid img-thumbnail d-block mx-auto rounded">' +
+        '</div>' +
+        '<div class="col-lg-11 text-left shadow-sm">' +
+        //'<br>' +
+        '<p style="margin-bottom: 0;">' +
+        '<b>Nombre:</b> ' + repo.Nombre + '<br>' +
+        '<b>Categoría:</b> ' + repo.cate.Nombre + '<br>' +
+        '<b>PVP:</b> <span class="badge badge-warning">$'+repo.pvp+'</span>'+
+        '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>');
+
+    return option;
+}
+
 $(function () {
     $('.select2').select2({
         theme: "bootstrap4",
@@ -120,7 +145,7 @@ $(function () {
     }).val(0.12);
 
     //Busqueda de los productos
-
+/*
     $('input[name="search"]').autocomplete({
         source:function(request,response){
             $.ajax({
@@ -152,7 +177,7 @@ $(function () {
             $(this).val('');
         }
     });
-
+*/
     $('.btnRemoveAll').on('click', function(){
         if(ventas.items.productos.length==0) return false;
         alert_action('Notificacion', '¿Estas seguro de eliminar todos los items de tu detalle?', function(){
@@ -199,4 +224,35 @@ $(function () {
       });
 
       ventas.list();
+
+      $('select[name="search"]').select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax:{
+            delay: 250,
+            type: 'POST',
+            url: window.location.pathname,
+            data: function(params){
+                var queryParametros={
+                    term: params.term,
+                    action: 'search-productos'
+                }
+                return queryParametros;
+            },
+            processResults: function(data){
+                return{
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese una descripcion',
+        minimumInputLength: 1
+    }).on('select2:select', function(e){
+        var data=e.params.data;
+        data.Cantidad=1;
+        data.Subtotal=0.00;
+        ventas.add(data);
+        $(this).val('').trigger('change.select2');
+    });
 });
