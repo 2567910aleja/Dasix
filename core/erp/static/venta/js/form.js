@@ -102,10 +102,10 @@ function formatRepo(repo) {
     var option = $(
         '<div class="wrapper container">'+
         '<div class="row">' +
-        '<div class="col-lg-1">' +
+        '<div class="col-sm-3 col-lg-2">' +
         '<img src="' + repo.image + '" class="img-fluid img-thumbnail d-block mx-auto rounded">' +
         '</div>' +
-        '<div class="col-lg-11 text-left shadow-sm">' +
+        '<div class="col-sm-9 col-lg-10 text-left shadow-sm">' +
         //'<br>' +
         '<p style="margin-bottom: 0;">' +
         '<b>Nombre:</b> ' + repo.Nombre + '<br>' +
@@ -247,7 +247,8 @@ $(function () {
             },
         },
         placeholder: 'Ingrese una descripcion',
-        minimumInputLength: 1
+        minimumInputLength: 1,
+        templateResult: formatRepo,
     }).on('select2:select', function(e){
         var data=e.params.data;
         data.Cantidad=1;
