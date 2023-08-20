@@ -1,7 +1,9 @@
+from django.db.models.functions import Cast
 from datetime import datetime
 
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
+from django.db.models import FloatField
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -49,10 +51,10 @@ class DashboardView(TemplateView):
         try:
             year=datetime.now().year
             for m in range(1,13):
-                Total=Venta.objects.filter(Date_joined__year=year, Date_joined__mes=m).aget(r=Coalesce(Sum('Total'),0)).get('r')
-                data.append(float(Total))
-        except:
-            pass
+                Total=Venta.objects.filter(Date_joined__year=year, Date_joined__month=m).aggregate(Total=Cast(Coalesce(Sum('Total'), 0.00),FloatField()))
+                data.append(Total['Total'])
+        except Exception as e:
+            print(str(e))
         return data
     
     def get_grafico_producto_venta_mes(self):
@@ -61,14 +63,14 @@ class DashboardView(TemplateView):
         mes = datetime.now().month
         try:
             for p in Producto.objects.all():
-                total = DetalleVenta.objects.filter(Venta__Date_joined__year=year, Venta__Date_joined__mes=mes, Produ_id=p.id).aggregate(r=Coalesce(Sum('Subtotal'), 0)).get('r')
+                total = DetalleVenta.objects.filter(Venta__Date_joined__year=year, Venta__Date_joined__month=mes, Produ_id=p.id).aggregate(r=Cast(Coalesce(Sum('Subtotal'), 0.00),FloatField())).get("r",0)
                 if total > 0:
                     data.append({
                         'name': p.Nombre,
                         'y': float(total)
                     })
-        except:
-            pass
+        except Exception as e:
+            print(e)
         return data
 
     def get_context_data(self, **kwargs):
