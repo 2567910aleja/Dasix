@@ -64,8 +64,10 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
             action = request.POST['action']
             if action == 'search-productos':
                 data=[]
-                produ=Producto.objects.filter(Nombre__icontains=request.POST['term'], Stock_gt=0)[0:10]
-                for i in produ:
+                ids_exclude=json.loads(request.POST['ids'])
+                print(ids_exclude)
+                produ=Producto.objects.filter(Nombre__icontains=request.POST['term'], Stock__gt=0)
+                for i in produ.exclude(id__in=ids_exclude)[0:10]:
                     item=i.toJSON()
                     #item['value']=i.Nombre
                     item['text']=i.Nombre
@@ -92,6 +94,9 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
                         det.Precio=float(i['pvp'])
                         det.Subtotal=float(i['Subtotal'])
                         det.save()
+
+                        det.Produ.Stock -= det.Cantidad
+                        det.Produ.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -125,8 +130,10 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
             action = request.POST['action']
             if action == 'search-productos':
                 data = []
-                prods = Producto.objects.filter(Nombre__icontains=request.POST['term'],Stock_gt=0)[0:10]
-                for i in prods:
+                ids_exclude=json.loads(request.POST['ids'])
+                print(ids_exclude)
+                prods = Producto.objects.filter(Nombre__icontains=request.POST['term'],Stock__gt=0)
+                for i in prods.exclude(id__in=ids_exclude)[0:10]:
                     item = i.toJSON()
                     item['value'] = i.Nombre
                     data.append(item)
@@ -150,6 +157,9 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
                         det.Precio = float(i['pvp'])
                         det.Subtotal = float(i['Subtotal'])
                         det.save()
+
+                        det.Produ.Stock -= det.Cantidad
+                        det.Produ.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:

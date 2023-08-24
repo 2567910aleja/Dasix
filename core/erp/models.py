@@ -66,8 +66,10 @@ class Producto(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
+        item['full_nombre']='{} / {}'.format(self.Nombre, self.cate.Nombre)
         item['cate']={"id":self.cate.id,"Nombre":self.cate.Nombre}
         item['image']=self.get_image()
+        item['pvp']=format(self.pvp, '.2f')
         return item
 
 class Cliente(models.Model):
@@ -118,6 +120,12 @@ class Venta(models.Model):
         item['Total']=format(self.Total, '.2f')
         item['det']=[i.toJSON() for i in self.detalleventa_set.all()]
         return item
+    
+    def delete(self, usign=None, keep_parents=False):
+        for det in self.detalleventa_set.all():
+            det.Produ.Stock += det.Cantidad
+            det.Produ.save()
+        super(Venta, self).delete()
 
 class DetalleVenta(models.Model):
     Venta=models.ForeignKey(Venta, on_delete=models.CASCADE)

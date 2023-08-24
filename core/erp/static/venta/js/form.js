@@ -8,6 +8,14 @@ var ventas={
         Total:0.00,
         productos:[]
     },
+    get_ids: function(){
+        var ids=[];
+        $.each(this.items.productos, function(key, value){
+            ids.push(value.id);
+        });
+        return ids;
+    },
+
     calcular_factura: function(){
         var Subtotal=0.00;
         var iva=$('input[name="Iva"]').val();
@@ -37,13 +45,21 @@ var ventas={
             data: this.items.productos,
             columns: [
                 { "data": "id"},
-                { "data": "Nombre"},
-                { "data": "cate.Nombre"},
+                { "data": "full_nombre"},
+                { "data": "Stock"},
                 { "data": "pvp"},
                 { "data": "cant"},
                 { "data": "Subtotal"},
             ],
             columnDefs: [
+                {
+                    targets: [-4],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<span class="badge badge-secondary">'+data+'</span>';
+                    }
+                },
                 {
                     targets: [0],
                     class: 'text-center',
@@ -83,7 +99,7 @@ var ventas={
             rowCallback(row, data, displayNum, displayIndex, dataIndex){
                 $(row).find('input[name="cant"]').TouchSpin({
                     min:1,
-                    max:100000000,
+                    max:data.Stock,
                     step:1
                 });
             },
@@ -108,8 +124,8 @@ function formatRepo(repo) {
         '<div class="col-sm-9 col-lg-10 text-left shadow-sm">' +
         //'<br>' +
         '<p style="margin-bottom: 0;">' +
-        '<b>Nombre:</b> ' + repo.Nombre + '<br>' +
-        '<b>Categoría:</b> ' + repo.cate.Nombre + '<br>' +
+        '<b>Nombre:</b> ' + repo.full_nombre + '<br>' +
+        '<b>Stock:</b> ' + repo.Stock + '<br>' +
         '<b>PVP:</b> <span class="badge badge-warning">$'+repo.pvp+'</span>'+
         '</p>' +
         '</div>' +
@@ -236,7 +252,8 @@ $(function () {
             data: function(params){
                 var queryParametros={
                     term: params.term,
-                    action: 'search-productos'
+                    action: 'search-productos',
+                    ids:JSON.stringify(ventas.get_ids())
                 }
                 return queryParametros;
             },
