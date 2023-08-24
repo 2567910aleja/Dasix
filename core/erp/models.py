@@ -45,6 +45,7 @@ class Producto(models.Model):
         image=models.ImageField(upload_to=f'{MEDIA_URL}producto/%y/%m/%d',null=True, blank=True, verbose_name='Imagen')
     else:
         image=models.ImageField(upload_to='producto/%y/%m/%d',null=True, blank=True, verbose_name='Imagen')
+    Stock=models.IntegerField(default=0, verbose_name='Stock')
     pvp=models.DecimalField(default=0.00, max_digits=9,decimal_places=2, verbose_name='Precio de venta')
 
     def __str__(self):
