@@ -1,5 +1,6 @@
 var tblProductos;
-var ventas={
+var ventas = {
+  iva_por:null,
     items:{
         Cli:'',
         Date_joined:'',
@@ -158,7 +159,7 @@ $(function () {
         postfix: '%'
     }).on('change', function(){
         ventas.calcular_factura();
-    }).val(0.12);
+    }).val(ventas.iva_por);
 
     //Busqueda de los productos
 /*

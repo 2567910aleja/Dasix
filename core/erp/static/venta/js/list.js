@@ -2,57 +2,57 @@ var tblVenta;
 
 $(function () {
 
-    tblVenta = $('#data').DataTable({
-        responsive: true,
-        autoWidth: false,
-        destroy: true,
-        deferRender: true,
-        ajax: {
-            url: window.location.pathname,
-            type: 'POST',
-            data: {
-                'action': 'searchdata'
-            },
-            dataSrc: ""
+    tblVenta = $("#data").DataTable({
+      responsive: true,
+      autoWidth: false,
+      destroy: true,
+      deferRender: true,
+      ajax: {
+        url: window.location.pathname,
+        type: "POST",
+        data: {
+          action: "searchdata",
         },
-        columns: [
-            {
-                "className":'details-control',
-                "orderable": false,
-                "data":null,
-                "defaultContent":''
-            },
-            {"data": "Cli.Nombres"},
-            {"data": "Date_joined"},
-            {"data": "Subtotal"},
-            {"data": "Iva"},
-            {"data": "Total"},
-            {"data": "id"},
-        ],
-        columnDefs: [
-            {
-                targets: [-2, -3, -4],
-                class: 'text-center',
-                orderable: false,
-                render: function (data, type, row) {
-                    return '$' + parseFloat(data).toFixed(2);
-                }
-            },
-            {
-                targets: [-1],
-                class: 'text-center',
-                orderable: false,
-                render: function (data, type, row) {
-                    var buttons = '<a href="/erp/venta/delete/' + row.id + '/" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a> ';
-                    buttons += '<a href="/erp/venta/update/' + row.id + '/" class="btn btn-primary btn-s btn-flat"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a rel="detalle" class="btn btn-success btn-s btn-flat"><i class="fas fa-search"></i></a> ';
-                    return buttons;
-                }
-            },
-        ],
-        initComplete: function (settings, json) {
-
-        }
+        dataSrc: "",
+      },
+      columns: [
+        {data: "id"},
+        { data: "Cli.Nombres" },
+        { data: "Date_joined" },
+        { data: "Subtotal" },
+        { data: "Iva" },
+        { data: "Total" },
+        { data: "id" },
+      ],
+      columnDefs: [
+        {
+          targets: [-2, -3, -4],
+          class: "text-center",
+          orderable: false,
+          render: function (data, type, row) {
+            return "$" + parseFloat(data).toFixed(2);
+          },
+        },
+        {
+          targets: [-1],
+          class: "text-center",
+          orderable: false,
+          render: function (data, type, row) {
+            var buttons =
+              '<a href="/erp/venta/delete/' +
+              row.id +
+              '/" class="btn btn-danger btn-s btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+            buttons +=
+              '<a href="/erp/venta/update/' +
+              row.id +
+              '/" class="btn btn-primary btn-s btn-flat btn-bg-morado-2"><i class="fas fa-edit"></i></a> ';
+            buttons +=
+              '<a rel="detalle" class="btn btn-success btn-s btn-flat"><i class="fas fa-search"></i></a> ';
+            return buttons;
+          },
+        },
+      ],
+      initComplete: function (settings, json) {},
     });
 
     $('#data tbody')

@@ -187,6 +187,9 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
         context['list_url'] = self.success_url
         context['action'] = 'edit'
         context['det'] = json.dumps(self.get_detalles_producto())
+
+        context['iva_por']=round(self.get_object().Iva / self.get_object().Total,2)
+        print(context['iva_por'])
         return context
 
 

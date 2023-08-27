@@ -16,11 +16,17 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <script src="{% static 'libs/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+    <!--Css style-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/logo-favi.png' %}">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
+  <div class="d-flex flex-column">
     <div class="login-logo">
-        <a href="{% url 'index' %}"><b>Da</b>six</a>
+        <b>Da</b>six
+    </div>
+    <div class="w-100 d-flex justify-content-center mb-4"><img src="{% static 'img/logo-favi.png' %}" class="img-fluid" alt=""></div>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -47,7 +53,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12"></div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Iniciar sesion</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-bg-morado-2"><i class="fas fa-sign-in-alt"></i> Iniciar sesion</button>
                     </div>
                 </div>
             </form>

@@ -4,7 +4,7 @@
 {% block content %}
 <form method="post" action="." enctype="multipart/form-data">
     <div class="card card-default">
-    <div class="card-header">
+    <div class="card-header bg-morado-2 text-white">
     <h3 class="card-title">
         {% if action == 'add' %}
         <i class="fas fa-plus"></i>
@@ -40,7 +40,7 @@
        
         
           <div class='card-footer'></div>
-          <button type="submit" class="btn btn-primary btn-flat "><i class="fas fa-save"></i> Guardar registro</button>
+          <button type="submit" class="btn btn-primary btn-flat btn-bg-morado-2"><i class="fas fa-save"></i> Guardar registro</button>
           <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar</a>
           </div>
     </div>

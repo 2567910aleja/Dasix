@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'storages',
     #mis app
     'core.erp',
-    'core.homepage',
     'core.login',
     'core.user',
     'core.apiAndroid',

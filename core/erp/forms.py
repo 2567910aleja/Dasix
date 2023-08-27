@@ -152,13 +152,6 @@ class ClienteForm(ModelForm):
             data['error'] = str(e)
         return data
 
-    # def clean(self):
-    #     cleaned = super().clean()
-    #     if len(cleaned['name']) <= 50:
-    #         raise forms.ValidationError('Validacion xxx')
-    #         # self.add_error('name', 'Le faltan caracteres')
-    #     return cleaned
-
 class VentaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -171,7 +164,7 @@ class VentaForm(ModelForm):
         fields = '__all__'
         widgets = {
             'Cli': Select(attrs={
-                'class': 'form-control select2',
+                'class': 'form-control select2 select-bg-morado-3',
                 'style': 'width: 100%'
             }),
             'Date_joined': DateInput(format='%Y-%m-%d',
@@ -182,7 +175,7 @@ class VentaForm(ModelForm):
                     'id': 'Date_joined',
                     'data-target':'Date_joined',
                     'data-toggle': 'datetimepicker'
-                }
+                  }
             ),  
             'Iva': TextInput(attrs={
                 'class':'form-control'

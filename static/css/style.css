@@ -1,0 +1,28 @@
+.bg-morado-1 {
+  background-color: #7900ac !important;
+}
+.bg-morado-2,
+.btn-bg-morado-2,
+.paginate_button.active a,
+.dropdown-item:active
+{
+  background-color: #af69cd !important;
+}
+.bg-morado-3,
+.select2-results__option--highlighted {
+  background-color: #cb9bde !important;
+}
+.btn-bg-morado-2 {
+  border: none !important;
+}
+.img-fluid {
+  width: 50%;
+}
+
+.paginate_button.active a {
+  border: none;
+}
+.btn.btn-secondary{
+  background-color: #cb9bde !important;
+  border: none;
+}
