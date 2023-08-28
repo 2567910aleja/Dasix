@@ -1,6 +1,6 @@
 var tblProductos;
 var ventas = {
-  iva_por:null,
+  iva_por:0.12,
     items:{
         Cli:'',
         Date_joined:'',
