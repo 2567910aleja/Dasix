@@ -133,9 +133,9 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/erp/dashboard/'
 
-LOGOUT_REDIRECT_URL='/login/'
+LOGOUT_REDIRECT_URL='login'
 
-LOGIN_URL='/login/'
+LOGIN_URL='login'
 
 #Carpeta raiz donde se guardaran nuestros archivos media
 if "WEBSITE_HOSTNAME" not in os.environ:
