@@ -26,3 +26,12 @@
   background-color: #cb9bde !important;
   border: none;
 }
+
+/*El selector "input:focus + .input-group-append .input-group-text" se utiliza para aplicar estilos específicos a un elemento ".input-group-text" que está dentro de ".input-group-append", solo cuando ese elemento ".input-group-append" sigue directamente después de un input en estado de :focus. Es una manera de aplicar estilos condicionales basados en la estructura y el estado de los elementos en el DOM.*/
+
+.input-group input:focus,
+.form-control:focus,
+.input-group input:focus + .input-group-append .input-group-text
+ {
+    border-color: #cb9bde !important;
+}
