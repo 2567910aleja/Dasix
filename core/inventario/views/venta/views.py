@@ -13,7 +13,7 @@ import json
 class VentaListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Venta
     template_name = 'venta/list.html'
-    permission_required = 'erp.view_venta'
+    permission_required = 'inventario.view_venta'
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -51,7 +51,7 @@ class VentaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
     form_class= VentaForm
     template_name='venta/create.html'
     success_url=reverse_lazy('inventario:venta_list')
-    permission_required='erp.add_venta'
+    permission_required='inventario.add_venta'
     url_redirect=success_url
 
     @method_decorator(csrf_exempt)
@@ -117,7 +117,7 @@ class VentaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Updat
     form_class = VentaForm
     template_name = 'venta/create.html'
     success_url = reverse_lazy('inventario:venta_list')
-    permission_required = 'erp.change_venta'
+    permission_required = 'inventario.change_venta'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -197,7 +197,7 @@ class VentaDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delet
     model = Venta
     template_name = 'venta/delete.html'
     success_url = reverse_lazy('inventario:venta_list')
-    permission_required = 'erp.delete_venta'
+    permission_required = 'inventario.delete_venta'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):

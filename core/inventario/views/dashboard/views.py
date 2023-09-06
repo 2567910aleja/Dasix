@@ -100,4 +100,7 @@ class DashboardView(TemplateView):
         context=super().get_context_data(**kwargs)
         context['panel']='Panel de administrador'
         context['grafico_venta_mes']=self.get_grafico_venta_mes()
+        context['ventas']=Venta.objects.all().order_by("-Date_joined")[0:10]
+        produ=Producto.objects.filter(Stock__lt=6)
+        context['alert_produ']={"vali":True if produ.exists() else False,"produ": produ }
         return context

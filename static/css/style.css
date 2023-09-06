@@ -35,3 +35,12 @@
  {
     border-color: #a23fcd !important;
 }
+
+.table-dash thead {
+  background-color: #9f34cc;
+  color: white;
+}
+
+.link_hover:hover {
+  color: #0d6efd;
+}

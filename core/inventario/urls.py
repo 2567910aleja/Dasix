@@ -1,6 +1,7 @@
 from django.urls import path
 from core.inventario.views.categoria.views import *
 from core.inventario.views.cliente.views import *
+from core.inventario.views.proveedor.views import ProveedorCreateView, ProveedorDeleteView, ProveedorListView, ProveedorUpdateView
 from core.inventario.views.venta.views import *
 from core.inventario.views.dashboard.views import *
 from core.inventario.views.producto.views import *
@@ -25,6 +26,12 @@ urlpatterns = [
     path('cliente/add/', ClienteCreateView.as_view(), name='cliente_create'),
     path('cliente/update/<int:pk>/', ClienteUpdateView.as_view(), name='cliente_update'),
     path('cliente/delete/<int:pk>/', ClienteDeleteView.as_view(), name='cliente_delete'),
+
+    # proveedor
+    path('proveedor/list/', ProveedorListView.as_view(), name='proveedor_list'),
+    path('proveedor/add/', ProveedorCreateView.as_view(), name='proveedor_create'),
+    path('proveedor/update/<int:pk>/', ProveedorUpdateView.as_view(), name='proveedor_update'),
+    path('proveedor/delete/<int:pk>/', ProveedorDeleteView.as_view(), name='proveedor_delete'),
 
     #Home
     path('dashboard/', DashboardView.as_view(), name='dashboard'),

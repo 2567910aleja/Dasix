@@ -82,6 +82,9 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.Nombres
+    
+    def get_nombre(self):
+        return self.Nombres + " " + self.Apellidos
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -94,6 +97,23 @@ class Cliente(models.Model):
         verbose_name_plural='Clientes'
         ordering=['id']
 
+class Proveedor(models.Model):
+  Nombres=models.CharField(max_length=150)
+  Identificacion=models.CharField(max_length=10, unique=True)
+  Direccion=models.CharField(max_length=150, null=True, blank=True)
+  Telefono=models.CharField(max_length=10, null=False, blank=False)
+  Correo=models.EmailField(null=False, blank=False)
+
+  def __str__(self):
+      return self.Nombres
+  
+  def toJSON(self):
+      return model_to_dict(self)
+  
+  class Meta:
+      verbose_name='Proveedor'
+      verbose_name_plural='Proveedores'
+      ordering=['id']
 
 class Venta(models.Model):
     Cli=models.ForeignKey(Cliente, on_delete=models.CASCADE)

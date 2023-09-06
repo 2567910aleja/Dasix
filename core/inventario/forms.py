@@ -189,3 +189,52 @@ class VentaForm(ModelForm):
                 'class':'form-control',
             })
         }
+
+class ProveedorForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Nombres'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Proveedor
+        fields = '__all__'
+        widgets = {
+            'Nombres': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese sus nombres',
+                }
+            ),
+            'Identificacion': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su identificación',
+                }
+            ),
+            'Direccion': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su direccion',
+                }
+            ),
+            'Telefono': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese su teléfono',
+                }
+            ),
+            'Correo': EmailInput(
+                attrs={
+                    'placeholder': 'Ingrese su correo',
+                }
+            )
+        }
+        exclude = ['user_updated', 'user_creation']
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data

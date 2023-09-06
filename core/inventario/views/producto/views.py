@@ -14,7 +14,7 @@ from core.inventario.models import Producto
 class ProductoListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Producto
     template_name = 'producto/list.html'
-    permission_required = 'erp.view_producto'
+    permission_required = 'inventario.view_producto'
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -50,7 +50,7 @@ class ProductoCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Cr
     form_class = ProductoForm
     template_name = 'producto/create.html'
     success_url = reverse_lazy('inventario:producto_list')
-    permission_required = 'erp.add_producto'
+    permission_required = 'inventario.add_producto'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -86,7 +86,7 @@ class ProductoUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Up
     form_class = ProductoForm
     template_name = 'producto/create.html'
     success_url = reverse_lazy('inventario:producto_list')
-    permission_required = 'erp.change_producto'
+    permission_required = 'inventario.change_producto'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -122,7 +122,7 @@ class ProductoDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, De
     model = Producto
     template_name = 'producto/delete.html'
     success_url = reverse_lazy('inventario:producto_list')
-    permission_required = 'erp.delete_producto'
+    permission_required = 'inventario.delete_producto'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)

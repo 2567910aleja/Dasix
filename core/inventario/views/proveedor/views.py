@@ -5,15 +5,15 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from core.inventario.forms import ClienteForm
+from core.inventario.forms import ProveedorForm
 from core.inventario.mixins import ValidatePermissionRequiredMixin
-from core.inventario.models import Cliente
+from core.inventario.models import Proveedor
 
 
-class ClienteListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
-    model = Cliente
-    template_name = 'cliente/list.html'
-    permission_required = 'inventario.view_cliente'
+class ProveedorListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
+    model = Proveedor
+    template_name = 'proveedor/list.html'
+    permission_required = 'inventario.view_proveedor'
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -25,29 +25,30 @@ class ClienteListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListV
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Cliente.objects.all():
+                for i in Proveedor.objects.all():
                     data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
+            data={}
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Clientes'
-        context['create_url'] = reverse_lazy('inventario:cliente_create')
-        context['list_url'] = reverse_lazy('inventario:cliente_list')
-        context['entity'] = 'Clientes'
+        context['title'] = 'Listado de Proveedores'
+        context['create_url'] = reverse_lazy('inventario:proveedor_create')
+        context['list_url'] = reverse_lazy('inventario:proveedor_list')
+        context['entity'] = 'Proveedores'
         return context
 
 
-class ClienteCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
-    model = Cliente
-    form_class = ClienteForm
-    template_name = 'cliente/create.html'
-    success_url = reverse_lazy('inventario:cliente_list')
-    permission_required = 'inventario.add_cliente'
+class ProveedorCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'proveedor/create.html'
+    success_url = reverse_lazy('inventario:proveedor_list')
+    permission_required = 'inventario.add_proveedor'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -68,19 +69,19 @@ class ClienteCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Cre
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Creación un Cliente'
-        context['entity'] = 'Clientes'
+        context['title'] = 'Creación un Proveedor'
+        context['entity'] = 'Proveedores'
         context['list_url'] = self.success_url
         context['action'] = 'add'
         return context
 
 
-class ClienteUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
-    model = Cliente
-    form_class = ClienteForm
-    template_name = 'cliente/create.html'
-    success_url = reverse_lazy('inventario:cliente_list')
-    permission_required = 'inventario.change_cliente'
+class ProveedorUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'proveedor/create.html'
+    success_url = reverse_lazy('inventario:proveedor_list')
+    permission_required = 'inventario.change_proveedor'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -102,18 +103,18 @@ class ClienteUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Upd
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición un Cliente'
-        context['entity'] = 'Clientes'
+        context['title'] = 'Edición un Proveedor'
+        context['entity'] = 'Proveedores'
         context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
 
 
-class ClienteDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
-    model = Cliente
-    template_name = 'cliente/delete.html'
-    success_url = reverse_lazy('inventario:cliente_list')
-    permission_required = 'inventario.delete_cliente'
+class ProveedorDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
+    model = Proveedor
+    template_name = 'proveedor/delete.html'
+    success_url = reverse_lazy('inventario:proveedor_list')
+    permission_required = 'inventario.delete_proveedor'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -130,7 +131,7 @@ class ClienteDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Del
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de un Cliente'
-        context['entity'] = 'Clientes'
+        context['title'] = 'Eliminación de un Proveedor'
+        context['entity'] = 'Proveedores'
         context['list_url'] = self.success_url
         return context

@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CategoriaListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
-    permission_required='erp.view_categoria'
+    permission_required='inventario.view_categoria'
     model=Categoria
     template_name='categoria/list.html'
 
@@ -51,7 +51,7 @@ class CategoriaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, C
     form_class=CategoriaForm
     template_name='categoria/create.html'
     success_url=reverse_lazy('inventario:categoria_list')
-    permission_required = 'erp.add_categoria'
+    permission_required = 'inventario.add_categoria'
     url_redirect = success_url
 
     #@method_decorator(csrf_exempt)
@@ -95,7 +95,7 @@ class CategoriaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, U
     form_class=CategoriaForm
     template_name='categoria/create.html'
     success_url=reverse_lazy('inventario:categoria_list')
-    permission_required = 'erp.change_category'
+    permission_required = 'inventario.change_category'
     url_redirect = success_url
 
     #@method_decorator(csrf_exempt)
@@ -131,7 +131,7 @@ class CategoriaDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, D
     model=Categoria
     template_name='categoria/delete.html'
     success_url=reverse_lazy('inventario:categoria_list')
-    permission_required = 'erp.delete_category'
+    permission_required = 'inventario.delete_category'
     url_redirect = success_url
 
     #@method_decorator(csrf_exempt)

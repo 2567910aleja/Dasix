@@ -24,7 +24,7 @@
                         <li><a href="{% url 'inventario:categoria_list' %}" class="dropdown-item"><i class="fas fa-truck-loading"></i> Categorías</a></li>
                         <li><a href="{% url 'inventario:producto_list' %}" class="dropdown-item"><i class="fas fa-boxes"></i> Productos</a></li>
                         <li><a href="{% url 'inventario:cliente_list' %}" class="dropdown-item"><i class="fas fa-users"></i> Clientes</a></li>
-                        <li><a href="#" class="dropdown-item"><i class="fas fa-parachute-box"></i> Proveedores</a></li>
+                        <li><a href="{% url 'inventario:proveedor_list' %}" class="dropdown-item"><i class="fas fa-parachute-box"></i> Proveedores</a></li>
                         <li><a href="{% url 'inventario:venta_list' %}" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
                     </ul>
                 </li>
@@ -37,7 +37,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-header">
-                        Último Acceso: 12 de Abril de 2020
+                        Último Acceso: {{request.user.last_login|date:"Y-m-d"}}
                     </span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
