@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'storages',
     #mis app
-    'core.erp',
+    'core.inventario',
     'core.login',
     'core.user',
     'core.apiAndroid',
@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
   os.path.join(BASE_DIR,"static")
   ]
 
-LOGIN_REDIRECT_URL = '/erp/dashboard/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 LOGOUT_REDIRECT_URL='login'
 

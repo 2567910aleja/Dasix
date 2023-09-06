@@ -6,7 +6,7 @@ from django.utils.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.sessions.models import Session
-from core.erp.models import Cliente
+from core.inventario.models import Cliente
 from core.user.models import User
 
 # funciones

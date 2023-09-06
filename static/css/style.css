@@ -6,11 +6,11 @@
 .paginate_button.active a,
 .dropdown-item:active
 {
-  background-color: #af69cd !important;
+  background-color: #9f34cc !important;
 }
 .bg-morado-3,
 .select2-results__option--highlighted {
-  background-color: #cb9bde !important;
+  background-color: #a23fcd !important;
 }
 .btn-bg-morado-2 {
   border: none !important;
@@ -23,7 +23,7 @@
   border: none;
 }
 .btn.btn-secondary{
-  background-color: #cb9bde !important;
+  background-color: #a23fcd !important;
   border: none;
 }
 
@@ -33,5 +33,5 @@
 .form-control:focus,
 .input-group input:focus + .input-group-append .input-group-text
  {
-    border-color: #cb9bde !important;
+    border-color: #a23fcd !important;
 }

@@ -81,7 +81,7 @@
             },
         });
 
-        var graphpie = Highcharts.chart('container-pie', {
+        let graphpie = Highcharts.chart('container-pie', {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -244,7 +244,8 @@
                 dataType: 'json',
             }).done(function (data) {
                 if (!data.hasOwnProperty('error')) {
-                    graphpie.addSeries(data);
+                    graphpie.addSeries(data.chart);
+                    graphpie.setTitle({ text: 'Porcentaje de venta de productos por el mes de ' + data.mes + " del año "+data.anio });
                     return false;
                 }
                 message_error(data.error);
