@@ -8,6 +8,6 @@ urlpatterns = [
     #Usuario
     path('list/', UserListView.as_view(), name='user_list'),
     path('add/', UserCreateView.as_view(), name='user_create'),
-    #path('categoria/update/<int:pk>/', CategoriaUpdateView.as_view(), name='categoria_update'),
+    path('update/<int:pk>/', UserUpdateView.as_view(), name='user_update'),
     #path('categoria/delete/<int:pk>/', CategoriaDeleteView.as_view(), name='categoria_delete'),
     ]
