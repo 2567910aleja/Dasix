@@ -7,6 +7,7 @@ from config.settings import MEDIA_URL, STATIC_URL
 AZURE_STATIC="https://contenedordasix.blob.core.windows.net/django-dasix"+STATIC_URL
 
 class User(AbstractUser):
+    email = models.EmailField(unique=True,null=False,blank=False,verbose_name="Email")
     if "WEBSITE_HOSTNAME" in os.environ:
         image=models.ImageField(upload_to=f'{MEDIA_URL}users/%Y/%m/%d', null=True, blank=True)
     else:
