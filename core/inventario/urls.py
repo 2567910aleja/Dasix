@@ -41,4 +41,6 @@ urlpatterns = [
     path('venta/add/', VentaCreateView.as_view(), name='venta_create'),
     path('venta/delete/<int:pk>/', VentaDeleteView.as_view(), name='venta_delete'),
     path('venta/update/<int:pk>/', VentaUpdateView.as_view(), name='venta_update'),
+
+    
 ]        
