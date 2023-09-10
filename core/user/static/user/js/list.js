@@ -17,11 +17,12 @@ $(function(){
         { data: "username" },
         { data: "Date_joined" },
         { data: "image" },
+        { data: "groups" },
         { data: "id" },
       ],
       columnDefs: [
         {
-          targets: [-2],
+          targets: [-3],
           class: "text-center",
           orderable: false,
           render: function (data, type, row) {
@@ -30,6 +31,19 @@ $(function(){
             );
           },
         },
+        {
+          targets: [-2],
+          class: 'text-center',
+          orderable: false,
+          render: function (data, type, row) {
+              var html = '';
+              $.each(row.groups, function (key, value) {
+                  html += '<span class="badge badge-success">' + value.name + '</span> ';
+              });
+              return html;
+          }
+      },
+
         {
           targets: [-1],
           class: "text-center",
