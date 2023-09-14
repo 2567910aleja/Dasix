@@ -42,7 +42,7 @@ class DashboardView(TemplateView):
             action = request.POST['action']
             if action == 'get_grafico_venta_mes':
                 data = {
-                    'name': 'Porcentaje de venta',
+                    'name': 'Precio de venta',
                     'showInLegend': False,
                     'colorByPoint': True,
                     'data': self.get_grafico_venta_mes()

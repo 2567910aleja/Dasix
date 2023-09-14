@@ -1,5 +1,5 @@
 $(function(){
-    $("#data").DataTable({
+    const data_table=$("#data").DataTable({
       responsive: true,
       autoWidth: false,
       destroy: true,
@@ -27,7 +27,9 @@ $(function(){
           orderable: false,
           render: function (data, type, row) {
             return (
-              '<img src="' + row.image + '" class="img-fluid mx-auto d-block" style="width: 20px; height: 20px;">'
+              '<button class="btn btn-img-info"><img src="' +
+              row.image +
+              '" class="img-fluid mx-auto d-block" style="width: 20px; height: 20px;"></button>'
             );
           },
         },
@@ -37,9 +39,9 @@ $(function(){
           orderable: false,
           render: function (data, type, row) {
               var html = '';
-              $.each(row.groups, function (key, value) {
-                  html += '<span class="badge badge-success">' + value.name + '</span> ';
-              });
+            $.each(row.groups, function (key, value) {
+                  html += '<span class="badge badge-success">' + value + '</span> ';
+            });
               return html;
           }
       },
@@ -61,6 +63,19 @@ $(function(){
           },
         },
       ],
-      initComplete: function (settings, json) {},
+      initComplete: function (settings, json) {
+        //poner evento a los botones de la imagen de cada producto
+        $("#data").on("click", ".btn-img-info", function () {
+          let fila = $(this).closest("tr, li");
+          let data = data_table.row(fila).data();
+          $("#modal-img .modal-title b").html(
+            `<i class="far fa-image"></i> Imagen del usuario <i>${data.username}</i>`
+          );
+          $("#modal-img .modal-body").html(
+            `<img class="img-fluid" src="${data.image}">`
+          );
+          $("#modal-img").modal("show");
+        });
+      },
     });
 })

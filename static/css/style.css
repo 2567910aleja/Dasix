@@ -44,3 +44,11 @@
 .link_hover:hover {
   color: #0d6efd;
 }
+
+.btn-img-info img {
+  transition: scale .3s ease;
+}
+
+.btn-img-info img:hover {
+  scale: 2;
+}

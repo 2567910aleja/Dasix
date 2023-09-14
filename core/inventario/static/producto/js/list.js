@@ -1,5 +1,5 @@
 $(function () {
-    $('#data').DataTable({
+    const data_table=$('#data').DataTable({
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -27,7 +27,7 @@ $(function () {
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    return '<img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">';
+                    return '<button class="btn btn-img-info"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;"></button>';
                 }
             },
             {
@@ -64,8 +64,15 @@ $(function () {
                 }
             },
         ],
-        initComplete: function (settings, json) {
-
+      initComplete: function (settings, json) {
+        //poner evento a los botones de la imagen de cada producto
+        $("#data").on("click", ".btn-img-info", function () {
+          let fila = $(this).closest("tr, li")
+          let data = data_table.row(fila).data();
+          $("#modal-img .modal-title b").html(`<i class="far fa-image"></i> Imagen del producto <i>${data.Nombre}</i>`)
+          $("#modal-img .modal-body").html(`<img class="img-fluid" src="${data.image}">`);
+          $("#modal-img").modal("show");
+        })
         }
     });
 });
