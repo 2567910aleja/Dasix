@@ -115,6 +115,31 @@ class Proveedor(models.Model):
       verbose_name_plural='Proveedores'
       ordering=['id']
 
+class Compra(models.Model):
+    Proveedor=models.ForeignKey(Proveedor,on_delete=models.CASCADE,null=False, blank=False)
+    Producto=models.ForeignKey(Producto,on_delete=models.CASCADE,null=False, blank=False)
+    Cantidad=models.IntegerField(null=False, blank=False)
+
+    def __str__(self):
+        return f'{self.Proveedor.Nombres} - {self.Producto.Nombre}'
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Proveedor'] = self.Proveedor.Nombres
+        item["Producto"]={"Nombre":self.Producto.Nombre,"Precio":self.Producto.pvp}
+        return item
+
+    class Meta:
+        verbose_name='Compra'
+        verbose_name_plural='Compras'
+    
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+      # le aumento el stock al producto si se realiza una compra
+      if self.id is None:
+          self.Producto.Stock+=self.Cantidad
+          self.Producto.save()
+      super(Compra, self).save()
+
 class Venta(models.Model):
     Cli=models.ForeignKey(Cliente, on_delete=models.CASCADE)
     Date_joined=models.DateField(default=datetime.now)

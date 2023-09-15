@@ -1,6 +1,7 @@
 from django.urls import path
 from core.inventario.views.categoria.views import *
 from core.inventario.views.cliente.views import *
+from core.inventario.views.compra.views import CompraCreateView, CompraDeleteView, CompraListView, CompraUpdateView
 from core.inventario.views.proveedor.views import ProveedorCreateView, ProveedorDeleteView, ProveedorListView, ProveedorUpdateView
 from core.inventario.views.venta.views import *
 from core.inventario.views.dashboard.views import *
@@ -32,6 +33,12 @@ urlpatterns = [
     path('proveedor/add/', ProveedorCreateView.as_view(), name='proveedor_create'),
     path('proveedor/update/<int:pk>/', ProveedorUpdateView.as_view(), name='proveedor_update'),
     path('proveedor/delete/<int:pk>/', ProveedorDeleteView.as_view(), name='proveedor_delete'),
+
+    # compra
+    path('compra/list/', CompraListView.as_view(), name='compra_list'),
+    path('compra/add/', CompraCreateView.as_view(), name='compra_create'),
+    path('compra/update/<int:pk>/', CompraUpdateView.as_view(), name='compra_update'),
+    path('compra/delete/<int:pk>/', CompraDeleteView.as_view(), name='compra_delete'),
 
     #Home
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
