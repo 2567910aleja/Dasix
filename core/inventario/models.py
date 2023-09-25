@@ -38,7 +38,7 @@ class Categoria(BaseModel):
         verbose_name_plural="Categorias"
         ordering=['id']
 
-class Producto(models.Model):
+class Producto(BaseModel):
     Nombre=models.CharField(max_length=150,unique=True)
     cate=models.ForeignKey(Categoria, on_delete=models.CASCADE, verbose_name='Categoria')
     if "WEBSITE_HOSTNAME" in os.environ:
@@ -72,7 +72,7 @@ class Producto(models.Model):
         item['pvp']=format(self.pvp, '.2f')
         return item
 
-class Cliente(models.Model):
+class Cliente(BaseModel):
     Nombres=models.CharField(max_length=150)
     Apellidos=models.CharField(max_length=150)
     Cedula=models.CharField(max_length=10, unique=True)
@@ -97,7 +97,7 @@ class Cliente(models.Model):
         verbose_name_plural='Clientes'
         ordering=['id']
 
-class Proveedor(models.Model):
+class Proveedor(BaseModel):
   Nombres=models.CharField(max_length=150)
   Identificacion=models.CharField(max_length=10, unique=True)
   Direccion=models.CharField(max_length=150, null=True, blank=True)
@@ -115,7 +115,7 @@ class Proveedor(models.Model):
       verbose_name_plural='Proveedores'
       ordering=['id']
 
-class Compra(models.Model):
+class Compra(BaseModel):
     Proveedor=models.ForeignKey(Proveedor,on_delete=models.CASCADE,null=False, blank=False)
     Producto=models.ForeignKey(Producto,on_delete=models.CASCADE,null=False, blank=False)
     Cantidad=models.IntegerField(null=False, blank=False)
@@ -140,7 +140,7 @@ class Compra(models.Model):
           self.Producto.save()
       super(Compra, self).save()
 
-class Venta(models.Model):
+class Venta(BaseModel):
     Cli=models.ForeignKey(Cliente, on_delete=models.CASCADE)
     Date_joined=models.DateField(default=datetime.now)
     Subtotal=models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -172,7 +172,7 @@ class Venta(models.Model):
             det.Produ.save()
         super(Venta, self).delete()
 
-class DetalleVenta(models.Model):
+class DetalleVenta(BaseModel):
     Venta=models.ForeignKey(Venta, on_delete=models.CASCADE)
     Produ=models.ForeignKey(Producto, on_delete=models.CASCADE)
     Precio=models.DecimalField(default=0.00, max_digits=9,decimal_places=2)

@@ -90,4 +90,13 @@ function submit_with_ajax(url,title, content, parametros,callback) {
         },
       },
     });
-  };
+};
+
+// Configurar el token CSRF globalmente para todas las solicitudes AJAX
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlewaretoken]").val());
+        }
+    }
+});

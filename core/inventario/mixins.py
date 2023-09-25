@@ -35,4 +35,4 @@ class ValidatePermissionRequiredMixin(object):
         if request.user.has_perms(self.get_perms()):
             return super().dispatch(request, *args, **kwargs)
         messages.error(request, 'No tiene permiso para ingresar a este modulo')
-        return HttpResponseRedirect(self.get_url_redirect)
+        return HttpResponseRedirect(self.get_url_redirect())

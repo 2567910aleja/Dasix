@@ -105,8 +105,7 @@ var ventas = {
         },
       ],
 
-      // esta funcion "rowCallback" me permite modificar algunos valores de la tabla a medida que se vaya
-      // creando nuevos registros en mi tabla
+      // esta funcion "rowCallback" me permite modificar algunos valores de la tabla a medida que se vaya creando nuevos registros en mi tabla
       rowCallback(row, data, displayNum, displayIndex, dataIndex) {
         $(row).find('input[name="cant"]').TouchSpin({
           min: 1,
@@ -133,7 +132,6 @@ function formatRepo(repo) {
       '" class="img-fluid img-thumbnail d-block mx-auto rounded">' +
       "</div>" +
       '<div class="col-sm-9 col-lg-10 text-left shadow-sm">' +
-      //'<br>' +
       '<p style="margin-bottom: 0;">' +
       "<b>Nombre:</b> " +
       repo.full_nombre +
@@ -181,40 +179,6 @@ $(function () {
     })
     .val(ventas.iva_por);
 
-  //Busqueda de los productos
-  /*
-    $('input[name="search"]').autocomplete({
-        source:function(request,response){
-            $.ajax({
-                url: window.location.pathname, 
-                type: "POST",
-                data: {
-                    'action':'search-productos',
-                    'term': request.term
-                }, 
-                dataType: "json",
-            })
-            .done(function (data) {
-                response(data);
-      })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        //alert(`${textStatus} : ${errorThrown}`);
-      })
-      .always(function () {
-      });
-        },
-        delay: 500,
-        minLength: 1,
-        select: function (event, ui) {
-            event.preventDefault();
-            console.log(ui.item)
-            ui.item.Cantidad=1;
-            ui.item.Subtotal=0.00;
-            ventas.add(ui.item);
-            $(this).val('');
-        }
-    });
-*/
   $(".btnRemoveAll").on("click", function () {
     if (ventas.items.productos.length == 0) return false;
     alert_action(
@@ -260,7 +224,6 @@ $(function () {
     }
     ventas.items.Date_joined = $('input[name="Date_joined"]').val();
     ventas.items.Cli = $('select[name="Cli"]').val();
-    //var parametros = $(this).serializeArray();
     var parametros = new FormData();
     parametros.append("action", $('input[name="action"]').val());
     parametros.append("ventas", JSON.stringify(ventas.items));

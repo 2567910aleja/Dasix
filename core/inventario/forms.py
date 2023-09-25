@@ -69,6 +69,7 @@ class ProductoForm(ModelForm):
                 }
             ),
         }
+        exclude=['user_creation','user_update']
     def save(self, commit=True):
         data = {}
         form = super()
@@ -189,6 +190,7 @@ class VentaForm(ModelForm):
                 'class':'form-control',
             })
         }
+        exclude=['user_creation','user_update']
 
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -256,3 +258,4 @@ class CompraForm(ModelForm):
     class Meta:
         model = Compra
         fields = '__all__'
+        exclude=['user_creation','user_update']

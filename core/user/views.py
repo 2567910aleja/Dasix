@@ -1,22 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
+from django.contrib.auth import authenticate
 from core.inventario.mixins import ValidatePermissionRequiredMixin
 from core.user.forms import UserForm
 from core.user.models import User
-
-
 
 class UserListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
     permission_required='user.view_user'
     model=User
     template_name='user/list.html'
+    url_redirect=reverse_lazy("inventario:dashboard")
 
-    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -42,9 +38,8 @@ class UserListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
         context['create_url']=reverse_lazy('user:user_create')
         context['list_url']=reverse_lazy('user:user_list')
         context['entity']='Usuarios'
-        #context['object_list']=Producto.objects.all()
         return context
-    
+
 class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = User
     form_class = UserForm
@@ -109,7 +104,7 @@ class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
         context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
-    
+
 class UserDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model=User
     template_name='user/delete.html'
@@ -135,3 +130,35 @@ class UserDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delete
         context['entity'] = 'Usuarios'
         context['list_url'] = self.success_url
         return context
+
+class UserCambioContrasena(LoginRequiredMixin,View):
+  def post(self, request, *args, **kwargs):
+      data={}
+      #contraseñas
+      password=request.POST.get("password",None)
+      password1=request.POST.get("password1",None)
+      password2=request.POST.get("password2",None)
+      # verificar que envie la contraseña actual
+      if not password:
+        return JsonResponse({"error":"No se envio la contraseña actual"})
+      
+      # verifico que haya enviado las 2 contraseñas para cambiar
+      if not (password1 and password2):
+          return JsonResponse({"error":"Falta alguna de las confirmaciones de la contraseña nueva"})
+      
+      # verificamos que la contraseña actual sea correcta
+      user=authenticate(request, username=request.user.username, password=password)
+      if not user:
+        return JsonResponse({"error":"Contraseña incorrecta"})
+      
+      # verificar que las 2 contraseñas sean iguales
+      if not password1 == password2:
+          return JsonResponse({"error":"Las contraseñas no coinciden"})
+      
+      # verificar que sean mayor a 8 caracteres
+      if len(password1)<8:
+          return JsonResponse({"error":"La contraseña tener 8 o más caracteres"})
+      
+      user.set_password(password1)
+      user.save()
+      return JsonResponse(data)
