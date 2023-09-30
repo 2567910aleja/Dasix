@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'core.inventario',
     'core.login',
     'core.user',
-    'core.apiAndroid',
 ]
 
 MIDDLEWARE = [

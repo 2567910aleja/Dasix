@@ -25,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('core.inventario.urls')),
     path('', include('core.login.urls')),
-    path("api/",include("core.apiAndroid.urls")),
     path("user/",include("core.user.urls"))
 ]
 
