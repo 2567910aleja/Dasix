@@ -29,5 +29,5 @@ urlpatterns = [
 ]
 
 # agrego la configuracion del los archivos media si esta en desarrollo
-if "WEBSITE_HOSTNAME" not in os.environ:
-  urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if "WEBSITE_HOSTNAME" not in os.environ:
+urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

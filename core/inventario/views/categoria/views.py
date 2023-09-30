@@ -8,42 +8,43 @@ from django.urls import *
 from django.contrib.auth.decorators import * 
 from core.inventario.mixins import ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
+# El LoginRequiredMixin es para validar que este Logueado
+# El ValidatePermissionRequiredMixin validar los permisos para entrar a la vista
 
 class CategoriaListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
+    # este atributo es para ponerle el nombre al permiso de esta vista, para que cuando se cree un grupo de permisos
     permission_required='inventario.view_categoria'
     model=Categoria
     template_name='categoria/list.html'
 
-    @method_decorator(csrf_exempt)
-    #@method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
+    # esta funcion es la que manipula las peticiones por el metodo "POST"
     def post(self, request, *args, **kwargs):
         data={}
         try:
+            # obtengo la accion de la peticion
             action=request.POST['action']
             if action =='searchdata':
+                # aqui retorno todas las categorias y les pongo su metodo toJSON para convertirlo en diccionario y se pueda serializar (convertir a JSON)
                 data=[]
                 for i in Categoria.objects.all():
                     data.append(i.toJSON())
             else:
+                # si no se envia el action, retorno el error
                 data['error'] ='No ha ingresado a ninguna opcion'
         except Exception as e:
+            # si hay un error en el codigo, lo envio
             data={}
             data['error']=str (e)
         return JsonResponse(data, safe=False)
     
-
+    # esta funcion es para enviar valores al template
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['title']='Listado de categorias'
+        # el reverse_lazy es para obtener alguna url por su nombre ("app:name_url"), y retorna la url completa (https://...)
         context['create_url']=reverse_lazy('inventario:categoria_create')
         context['list_url']=reverse_lazy('inventario:categoria_list')
         context['entity']='Categorias'
-        #context['object_list']=Producto.objects.all()
         return context
     
 class CategoriaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
