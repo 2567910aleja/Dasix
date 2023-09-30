@@ -20,6 +20,7 @@ from core.login.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Aqui se pone la configuracion de las url del proyecto, el include es para llamar las urls de las apps
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('core.inventario.urls')),
@@ -28,4 +29,6 @@ urlpatterns = [
     path("user/",include("core.user.urls"))
 ]
 
-urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# agrego la configuracion del los archivos media si esta en desarrollo
+if "WEBSITE_HOSTNAME" not in os.environ:
+  urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

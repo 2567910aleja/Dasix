@@ -24,6 +24,7 @@ SECRET_KEY = 'django-insecure-bhy+dk156xm+x=r+wk@crp!30ou^83jp_tizz1py#=ru$y4q_3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
 # ip local, e ip de red local, (cmd, ipconfig,valor: Dirección IPv4)
 ALLOWED_HOSTS = ["127.0.0.1","192.168.0.2","192.168.110.51"]
 
@@ -37,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #libs
+    #librerias
     'widget_tweaks',
     'storages',
-    #mis app
+    #mis aplicaciones
     'core.inventario',
     'core.login',
     'core.user',
@@ -64,6 +65,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # pongo la ruta de la carpeta de los templates
         'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -83,6 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# configuracion de la base de datos en desarrollo
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -127,23 +130,28 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# configuracion de la carpeta de archivos estaticos
 STATICFILES_DIRS = [
   os.path.join(BASE_DIR,"static")
   ]
 
+# ruta a donde se manda el usuario despues de iniciar sesion
 LOGIN_REDIRECT_URL = '/dashboard/'
 
+# ruta a donde se manda el usuario despues de cerrar sesion
 LOGOUT_REDIRECT_URL='login'
 
+# ruta del inicio de sesion
 LOGIN_URL='login'
 
-#Carpeta raiz donde se guardaran nuestros archivos media
+#Carpeta raiz donde se guardaran nuestros archivos media, y se crea solo si estamos en desarrollo
 if "WEBSITE_HOSTNAME" not in os.environ:
     MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 #Url absoluta para trabajar con los archivos media
 MEDIA_URL='media/'
 
+# modelo del usuario que mmodificamos
 AUTH_USER_MODEL='user.User'
 
 
@@ -156,16 +164,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # host del envio de correos
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+
+# configuracion de las credenciales de gmail para el envio emails
+# obtengo las credenciales de azure o del local si estamos en desarrollo o desplegado
 if 'WEBSITE_HOSTNAME' in os.environ: 
-    config_email_tienda=os.environ['EMAIL_SEND']
-    config_email_tienda_valores={i.split('=')[0]:i.split('=')[1] for i in config_email_tienda.split(' ')}
+    config_email=os.environ['EMAIL_SEND']
+    config_email_valores={i.split('=')[0]:i.split('=')[1] for i in config_email.split(' ')}
 else:
-    config_email_tienda_valores={
+    config_email_valores={
         'email':os.environ.get('CORREO'),
         'password':os.environ.get('PASS_CORREO')
     }
 # correo de gmail que va a enviar correos
-EMAIL_HOST_USER = config_email_tienda_valores['email']
+EMAIL_HOST_USER = config_email_valores['email']
 # la contraseña
-EMAIL_HOST_PASSWORD = config_email_tienda_valores['password']
+EMAIL_HOST_PASSWORD = config_email_valores['password']
 EMAIL_USE_TLS = True
